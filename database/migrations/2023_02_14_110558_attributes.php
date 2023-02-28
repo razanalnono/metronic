@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('attributes',function(Blueprint $table){
             
             $table->id();
-            $table->json('name');
+            $table->string('name');
+            $table->softDeletes();
+
         });
     }
 

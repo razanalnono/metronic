@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Http\Requests\ProductRequest;
 use Illuminate\Pagination\Paginator;
+use App\Http\Resources\ProductResource;
+use App\Models\Product;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +30,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Paginator::useBootstrap();
+        JsonResource::withoutWrapping();
+
     }
 }

@@ -1,1 +1,0 @@
-Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod rem, velit doloremque ea minus, numquam sint vitae vel error possimus corrupti deleniti, nisi eos! Qui rem et quo quas consequatur!<?php /**PATH D:\metronic_v7.2.8_2\metronic_v7.2.8\theme\html_laravel\demo1\skeleton\resources\views/dashboard.blade.php ENDPATH**/ ?>

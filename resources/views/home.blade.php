@@ -216,7 +216,7 @@
             </div>
         </div>
         <!-- End Header Middle -->
-    
+
     </header>
     <!-- End Header Area -->
 
@@ -230,10 +230,10 @@
                         <div class="hero-slider">
                             <!-- Start Single Slider -->
                             @foreach ($products as $product )
-                                
+
                             <div class="single-slider">
                                 <div class="content" style="background-image: url()">
-                                    
+
                                     <img src="{{ $product->image_url}}" width="auto">
                                     <h2><span>{{ $product->name }}</span>
                                     </h2>
@@ -245,7 +245,7 @@
                                 </div>
                             </div>
                             <!-- End Single Slider -->
-            @endforeach
+                            @endforeach
                         </div>
                         <!-- End Hero Slider -->
                     </div>
@@ -288,40 +288,47 @@
                     </div>
                 </div>
             </div>
-     <!--begin::Products-->
-    <div class="row">
-        <!--begin::Product-->
-        @foreach ($products as $product )
-        <div class="col-md-4 col-xxl-4 col-lg-12 p-1">
-            <!--begin::Card-->
-            <div class="card card-custom card-shadowless">
-                <div class="card-body p-0 row" style=" height=100rem;">
-                    <!--begin::Image-->
-                        <div class=" rounded  text-center col-md-5" style="height: 15rem;">
-                            <img src="{{asset('/' . $product->image) }}" alt="" class="w-400px" style="height: inherit; width:1000rem; 
+            <!--begin::Products-->
+            <div class="row">
+                <!--begin::Product-->
+                @foreach ($products as $product )
+                <div class="col-md-4 col-xxl-4 col-lg-12 p-1">
+                    <!--begin::Card-->
+                    <div class="card card-custom card-shadowless">
+                        <div class="card-body p-0 row" style=" height=100rem;">
+                            <!--begin::Image-->
+                            <div class=" rounded  text-center col-md-5" style="height: 15rem;">
+                                <img src="{{ $product->imageUpload($product->image, '/') }}" alt="" class="w-400px" style="height: inherit; width:1000rem; 
                             ">
+                            </div>
+                            <!--end::Image-->
+
+                            <!--begin::Details-->
+                            <div
+                                class="text-center mt-5 mb-md-0 mb-lg-5 mb-md-0 mb-lg-5 mb-lg-0 mb-5 d-flex flex-column col-md-6">
+                                <a href="#"
+                                    class="font-size-h5 font-weight-bolder text-dark-75 text-hover-primary mb-1">{{
+                                    $product->name }}</a>
+                                <span class="font-size-lg">{{ $product->description }}</span>
+
+                          <div class="btn btn-info">
+                            <a href="{{ route('products.show', ['id' => $product->id]) }}">Add To Cart</a>
+                        </div>
+
+                            </div>
+                            <!--end::Details-->
+                        </div>
                     </div>
-                    <!--end::Image-->
-    
-                    <!--begin::Details-->
-                    <div class="text-center mt-5 mb-md-0 mb-lg-5 mb-md-0 mb-lg-5 mb-lg-0 mb-5 d-flex flex-column col-md-6">
-                        <a href="#" class="font-size-h5 font-weight-bolder text-dark-75 text-hover-primary mb-1">{{
-                            $product->name }}</a>
-                        <span class="font-size-lg">{{ $product->description }}</span>
-                    </div>
-                    <!--end::Details-->
+                    <!--end::Card-->
+
                 </div>
+                @endforeach
+                <!--end::Product-->
             </div>
-            <!--end::Card-->
-    
-        </div>
-        @endforeach
-        <!--end::Product-->
-        </div>
     </section>
     <!-- End Features Area -->
 
-  
+
 
     <!-- Start Footer Area -->
     <footer class="footer">

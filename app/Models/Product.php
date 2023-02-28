@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
+use App\Models\Category;
+use App\Models\Variation;
+use App\Traits\imageUpload;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
 
 class Product extends Model
 {
-    use HasFactory, HasTranslations, SoftDeletes;
+    use HasFactory, HasTranslations, SoftDeletes,imageUpload;
 
     protected $guarded = [];
     protected $hidden = ['created_at', 'updated_at'];
@@ -23,6 +26,15 @@ class Product extends Model
     //     'is_enabled' => 0,
     // ];
 
+
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class, 'product_attributes')->withPivot('value');
+    }
+
+
+
+    
     
     public function category()
     {
@@ -30,6 +42,18 @@ class Product extends Model
             'is_enabled' => 0,
         ]);
     }
+
+    public function variations()
+    {
+        return $this->hasMany(Variation::class);
+    }
+
+
+
+
+
+
+
 
 
     //local scope

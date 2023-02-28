@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Product;
+use App\Http\Resources\VariationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
@@ -14,16 +16,23 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
+
+        $product = Product::with('variations.attributes')->findOrFail($request->id);
+
+
         return [
-            'id'       => $this->id,
-            'name'     => $this->name,
-            'slug'     => $this->slug,
-            'quantity' => $this->quantity,
-            'price'    =>  $this->price,
-            'image'    => $this->image,
-            'category' => [
-                            'category_id'=>    $this->category->id,
-                            'category_name'=>  $this->category->name]
+            'id' => $this->id,
+            'product_id' => $product->id,
+            'category'=> $product->category->name,
+            'price'=>$product->price,
+            'description'=>$product->description,
+            'image'=>asset($product->image),
+            'variation'=>$product->variations
+            
+            
+           
         ];
     }
+
+    
 }

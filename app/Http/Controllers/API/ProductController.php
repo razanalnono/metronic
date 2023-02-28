@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Events\AddProductEvent;
 use App\Models\Product;
+use App\Models\Variation;
 use App\Jobs\EnableProduct;
 
 use App\Traits\apiResponse;
 use App\Traits\imageUpload;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Events\AddProductEvent;
 use App\Notifications\AddProduct;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -86,6 +87,10 @@ class ProductController extends Controller
     public function show($id)
     {
         //
-        return $this->apiResponse(new ProductResource(Product::findOrFail($id)), 'Done', Response::HTTP_OK);
+        //return $this->apiResponse(new ProductResource(Product::findOrFail($id)), 'Done', Response::HTTP_OK);
+        $product = Product::with('variations.attributes')->findOrFail($id);
+    //    return $product;
+          return $this->apiResponse(new ProductResource($product), 'Product added successfully!', Response::HTTP_CREATED);
+
     }
 }

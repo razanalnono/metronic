@@ -20,7 +20,7 @@ class CategoryController extends Controller
     public function index()
     {
         $parents = Category::all(['id','name']);
-        $categories = Category::orderByDesc('id')->simplePaginate(20);
+        $categories = Category::oldest()->simplePaginate(20);
         return view('categories.index', compact('categories','parents'));
     }
 

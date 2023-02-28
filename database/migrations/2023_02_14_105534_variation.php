@@ -16,10 +16,12 @@ return new class extends Migration
         //   
         Schema::create('variations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('prdouct_id')->constrained('products')->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
+            $table->string('value');
             $table->unsignedFloat('price');
             $table->unsignedBigInteger('quantity')->default(0);
             $table->string('image')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     

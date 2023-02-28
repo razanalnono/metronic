@@ -54,7 +54,7 @@
 
                     <div class="form-group">
                         <label for="name">Enable</label>
-                        <input type="checkbox"  name="up_enabled_id" id="up_enabled_id">
+                        <input type="checkbox" name="up_enabled_id" id="up_enabled_id">
                     </div>
 
 

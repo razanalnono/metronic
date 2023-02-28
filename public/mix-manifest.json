@@ -1,5 +1,6 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/cart.js": "/js/cart.js",
     "/plugins/global/plugins.bundle.js": "/plugins/global/plugins.bundle.js",
     "/js/scripts.bundle.js": "/js/scripts.bundle.js",
     "/plugins/custom/ckeditor/ckeditor-balloon-block.bundle.js": "/plugins/custom/ckeditor/ckeditor-balloon-block.bundle.js",
@@ -289,6 +290,7 @@
     "/media/misc/bg-1.jpg": "/media/misc/bg-1.jpg",
     "/media/misc/bg-2.jpg": "/media/misc/bg-2.jpg",
     "/media/misc/invoice 5 bar.jpg": "/media/misc/invoice 5 bar.jpg",
+    "/media/notifi/notify.mp3": "/media/notifi/notify.mp3",
     "/media/plugins/jstree/32px.png": "/media/plugins/jstree/32px.png",
     "/media/products/1.png": "/media/products/1.png",
     "/media/products/10.png": "/media/products/10.png",

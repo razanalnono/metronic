@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Attribute;
+use App\Models\Variation;
 use App\Traits\imageUpload;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\VariationValue;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Storage;
@@ -77,10 +81,23 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function show($id)
-    // {
-    //     //
-    // }
+    public function show($id)
+    {
+        //
+
+        $product = Product::findOrFail($id);
+        $cartItems = Cart::where('user_id', auth()->id())->get();
+
+        //To get all the attribute variations for specific product
+        $productVariations = Variation::where('product_id', $id)->get();
+        $variationValues = VariationValue::whereIn('variation_id', $productVariations->pluck('id'))->get();
+        $attributeIds = $variationValues->pluck('attribute_id')->unique();
+        $attributes = Attribute::whereIn('id', $attributeIds)->get(['id', 'name']);
+
+
+
+        return response()->view('Front.show',compact(['product','cartItems','attributes']));
+    }
 
     /**
      * Show the form for editing the specified resource.

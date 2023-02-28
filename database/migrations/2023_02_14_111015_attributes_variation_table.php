@@ -15,14 +15,15 @@ return new class extends Migration
     {
         //
         Schema::create('variations_attributes', function (Blueprint $table) {
-            //
-            $table->foreignId('attributes_id')->nullable()
-                  ->constrained('attributes', 'id')
-                  ->nullOnDelete();
+            $table->id();
+            $table->foreignId('attributes_id')
+                  ->constrained('attributes', 'id');
+                  
             $table->foreignId('variation_id')->nullable()
-                ->constrained('variations', 'id')
-                ->nullOnDelete();
+                ->constrained('variations', 'id')->cascadeOnDelete();       
             $table->string('value');
+            $table->softDeletes();
+
         });
     }
 

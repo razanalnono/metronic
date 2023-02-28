@@ -33,6 +33,27 @@ return [
             'root' => true,
           
         ],
+
+        [
+            'title' => 'Attributes',
+            'icon' => 'media/svg/icons/Layout/Layout-4-blocks.svg',
+            'page' => '/attributes',
+            'bullet' => 'line',
+            'root' => true,
+
+        ],
+
+
+        [
+            'title' => 'Variation',
+            'icon' => 'media/svg/icons/Layout/Layout-4-blocks.svg',
+            'page' => '/variation',
+            'bullet' => 'line',
+            'root' => true,
+
+        ],
+  
+     
      
         
 

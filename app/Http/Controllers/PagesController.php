@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Repositories\CartRepository;
 
 class PagesController extends Controller
 {
@@ -16,6 +17,17 @@ class PagesController extends Controller
 
         return view('home', compact('page_title', 'page_description', 'products'));
     }
+
+
+
+    public function show($productId)
+    {
+        $product = Product::findOrFail($productId);
+
+        return view('home')->with('product', $product)->with('productId', $productId);
+    }
+
+
 
     /**
      * Demo methods below

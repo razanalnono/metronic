@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\OrderCreated;
+use App\Listeners\ReduceQuantity;
+use App\Models\Order;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -14,9 +17,12 @@ class EventServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $listen = [
+    public $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        OrderCreatede::class => [
+            ReduceQuantity::class,
         ],
     ];
 
@@ -27,6 +33,16 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Event::listen(
+        //     OrderCreated::class =>
+        //     [ReduceQuantity::class,'handle'],
+        // );
+
+
+        Event::listen(
+            OrderCreated::class,
+           [ReduceQuantity::class, 'handle']
+       );
+
     }
 }

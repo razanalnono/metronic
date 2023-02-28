@@ -4,18 +4,36 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Attribute extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    public $guarded=[];
+    protected $fillable = ['name'];
 
-    public function variations()
+    public $timestamps = false;
+    public $hidden=['deleted_at'];
+
+
+    public function variation_values()
     {
-        return $this->belongsToMany(Variation::class, 'variations_attributes')
-        ->withPivot(['value'])
-        ->as('option');
+        return $this->hasMany(VariationValue::class);
+    }
+
+
+
+
+    public function getNameAttribute()
+    {
+        return json_decode($this->attributes['name']);
     }
     
+    // public function variations()
+    // {
+    //     return $this->belongsToMany(Variation::class, 'variation_values')
+    //     ->withPivot(['value'])
+    //     ->as('attributes_value');
+    // }
+
 }

@@ -16,6 +16,10 @@ class Categories extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->text('name');
+            $table->foreignId('parent_id')
+                ->nullable()
+                ->constrained('categories', 'id')
+                ->nullOnDelete();
             $table->string('slug')->unique();
             $table->timestamps();
         });

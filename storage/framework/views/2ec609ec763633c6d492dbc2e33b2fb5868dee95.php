@@ -123,7 +123,7 @@
 
                         <td data-field="Order ID" aria-label="54753-003" class="datatable-cell">
                             <span style="width: 126px; position: relative;
-                             left: -2pc;"><?php echo e($product->slug); ?></span>
+                             left: -2pc;"><?php echo e($product->category->name); ?></span>
                         </td>
 
 
