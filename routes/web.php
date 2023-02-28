@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\AttributeValues;
+use App\Models\ProductVariants;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PagesController;
@@ -9,6 +11,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\VariationController;
+use App\Http\Controllers\AttributeValuesController;
+use App\Http\Controllers\ProductVariantsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
@@ -56,6 +60,16 @@ Route::post('/variation',[VariationController::class, 'store'])->name('add.varia
 Route::post('update-variation',[VariationController::class, 'update'])->name('update.variation');
 Route::post('/delete-variation',[VariationController::class, 'destroy'])->name('delete.variation');
 });
+
+
+Route::get('/attributeValues', [AttributeValuesController::class, 'index']);
+Route::post('/attributeValues', [AttributeValuesController::class, 'store'])->name('add.value');
+
+Route::get('/variants', [ProductVariantsController::class, 'index']);
+Route::post('/variants', [ProductVariantsController::class, 'store'])->name('add.variants');
+
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

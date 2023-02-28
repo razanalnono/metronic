@@ -8,63 +8,40 @@
 <div class="card card-custom">
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
-            <h3 class="card-label">Attributes Table
-            </h3>
+            <h3 class="card-label">Variants Table</h3>
         </div>
-
     </div>
 
-    <div class="float-xl-left" style="position: relative;
-    left: 69pc;"><a href="#" class="btn btn-light-info font-weight-bolder btn-md addOptionForm"
-            data-bs-toggle="modal" data-bs-target="#addModal">New Option</a></div>
-    <div class="card-body" style="padding: 2rem 4.25rem;">
-
-        <div class="datatable datatable-default datatable-bordered datatable-loaded">
-            <table class="datatable-bordered datatable-head-custom datatable-table" id="kt_datatable"
-                style="display: block;">
-                <thead class="datatable-head">
-                    <tr class="datatable-row" style="left: 0px;">
-                        <th data-field="Order ID" class="datatable-cell datatable-cell-sort"><span style="width: 126px; position: relative;
-                             left: 2pc">#</span></th>
-                        <th data-field=" Car Make" class="datatable-cell datatable-cell-sort"><span
-                                style="width: 126px;">Option Name</span></th>
-
-<th data-field=" Car Make" class="datatable-cell datatable-cell-sort"><span style="width: 126px;">Variation</span>
-            </th>
-<th data-field=" Car Make" class="datatable-cell datatable-cell-sort"><span style="width: 126px;">Value</span>
-            </th>
-
-                        <th data-field="Type" data-autohide-disabled="false" class="datatable-cell datatable-cell-sort">
-                            <span style="width: 126px;">Action</span>
-                        </th>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table  table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Attributes</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
-                <tbody style="" class="datatable-body">
+                <tbody>
+                    @foreach ($variants as $variant)
+                    <tr>
+                        <td>{{ $variant->product->name }}</td>
 
 
+                        
+           <td>
+            {{ $variant->attributeValues->attribute->name }}:{{ $variant->attributeValues->value }}
+           </td>
 
 
-                    @foreach ($options as $key=>$option )
-
-
-
-                    <tr data-row="5" class="datatable-row datatable-row-even" style="left: 0px;">
-
-
-                        <td data-field="Order ID" aria-label="54753-003" class="datatable-cell"><span style="width: 126px; position: relative;
-                             left: 2pc;">{{ $loop->iteration }}</span></td>
-
-
-
-                        <td data-field="Deposit Paid" aria-label="$39286.74" class="datatable-cell"><span
-                                style="width: 126px;">{{$option}}</span></td>
-
-
+                        <td>{{ $variant->quantity }}</td>
                         <td>
-                            <div class="btn-group" style="position: relative; left:-60px;">
+                            <div class="btn-group" style="position: relative; left:-10px;">
                                 <a href="#"
-                                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 updateOptionForm"
-                                    data-bs-toggle="modal" data-bs-target="#updateModal" data-id="{{ $option }}">
+                                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 updateAttributeForm"
+                                    data-bs-toggle="modal" data-bs-target="#updateModal" data-id="{{ $variant->id }}">
                                     <span class="svg-icon svg-icon-md svg-icon-primary">
                                         <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Write.svg-->
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +66,7 @@
                                 <form method="POST" action="#">
                                     @csrf
                                     @method('delete')
-                                    <button class="btn  deleteOption" data-id="{{ $option }}">
+                                    <button class="btn  deleteAttribute" data-id="{{ $variant->id }}">
                                         <span class="svg-icon svg-icon-md svg-icon-primary">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -114,34 +91,25 @@
                             </div>
 
                         </td>
-
-
                     </tr>
-
                     @endforeach
-
                 </tbody>
             </table>
-
-
-
-
-
-
-
         </div>
-        <!--end: Datatable-->
+    </div>
+
+    <div class="float-xl-right mr-5" style="margin-top: 1rem;">
+        <button type="button" class="btn btn-primary font-weight-bolder btn-md addAttributeForm" data-bs-toggle="modal"
+            data-bs-target="#addModal">
+            New Variant
+        </button>
     </div>
 </div>
-
-
 @endsection
 
 
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-@include('option.addOption')
-@include('option.option')
-{{-- @include('attributes.updateAttribute') --}}
-
+@include('ProductVariants.attribute')
+{{-- @include('ProductVariants.addAttribute') --}}
 @endsection

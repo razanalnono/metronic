@@ -21,7 +21,7 @@
                             <option value="{{ $product->id }}">{{ $product->name }}</option>
                             @endforeach
                         </select>
-                        <span class="text-danger formErrors category_err"></span>
+                        <span class="text-danger formErrors up_product_err"></span>
 
                     </div>
 
@@ -32,19 +32,20 @@
                             <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
                             @endforeach
                         </select>
-                        <span class="text-danger formErrors slug_err"></span>
+                        <span class="text-danger formErrors up_slug_err"></span>
                     </div>
                     
                     
                     <div class="form-group col-md-6">
                         <label for="value">Value</label>
                         <input type="text" class="form-control" name="up_value" id="up_value">
-                        <span class="text-danger formErrors value_err"></span>
+                        <span class="text-danger formErrors up_value_err"></span>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="name">Quantity</label>
                         <input type="text" class="form-control" name="up_quantity" id="up_quantity">
+                        <span class="text-danger formErrors up_quantity_err"></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="name">Price</label>

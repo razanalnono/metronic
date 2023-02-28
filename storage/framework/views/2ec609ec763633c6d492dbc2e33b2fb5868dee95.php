@@ -84,7 +84,7 @@
 
 
                         <th data-field="Car Make" class="datatable-cell datatable-cell-sort"><span
-                                style="width: 126px;">Slug</span>
+                                style="width: 126px;">Category</span>
                         </th>
 
 
@@ -217,7 +217,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <?php echo $__env->make('products_js.product_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('products_js.addProduct_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('products_js.updateProduct_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
     integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="

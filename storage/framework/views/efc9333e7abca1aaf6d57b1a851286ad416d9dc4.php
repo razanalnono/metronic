@@ -9,11 +9,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">Attribute Value</label>
+                        <label for="name">Attribute Name</label>
                         <input type="text" class="form-control " name="name" id="name">
                         <span class="text-danger formErrors attribute_errr "></span>
-
                     </div>
+
+              
 
 
                 </div>

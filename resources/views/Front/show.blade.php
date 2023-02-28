@@ -28,7 +28,7 @@
                         <div class="product-images">
                             <main id="gallery">
                                 <div class="main-img">
-                                    <img src="{{ $product->image }}" id="current" alt="#">
+                                    <img src="https://via.placeholder.com/1000x670" id="current" alt="#">
                                 </div>
                                 <div class="images">
                                     <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
@@ -88,24 +88,22 @@
                                         min="1">
                                 </div>
 
+                              <div class="form-group">
+                                @foreach ($attributes as $attribute)
                                 <div class="form-group">
-
-                                    @foreach ($attributes as $attribute)
-                                    <div class="form-group">
-                                        <label for="{{ $attribute->name }}">{{ $attribute->name }}</label>
-                                        <select name="variation_value" id="{{ $attribute->name }}" class="form-control">
-                                            @foreach ($product->variations as $variation)
-                                            @foreach ($variation->values as $value)
-                                            @if ($value->attribute_id == $attribute->id)
-                                            <option name="variation_value" value="{{ $value->id }}">{{ $value->value }}
-                                            </option>
-                                            @endif
-                                            @endforeach
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    @endforeach
+                                    <label for="{{ $attribute->name }}">{{ $attribute->name }}</label>
+                                    <select name="variation_value[]" id="{{ $attribute->name }}" class="form-control">
+                                        @foreach ($product->variations as $variation)
+                                        @foreach ($variation->values as $value)
+                                        @if ($value->attribute_id == $attribute->id)
+                                        <option value="{{ $value->id }}">{{ $value->value }}</option>
+                                        @endif
+                                        @endforeach
+                                        @endforeach
+                                    </select>
                                 </div>
+                                @endforeach
+                            </div>
                                 <button type="submit" class="btn btn-primary">Add to cart</button>
                             </form>
 

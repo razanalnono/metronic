@@ -185,5 +185,5 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @include('variation.addVariation')
 @include('variation.variation')
-@include('variation.updateVariation')
+{{-- @include('variation.updateVariation') --}}
 @endsection

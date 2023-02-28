@@ -51,14 +51,27 @@ class CartController extends Controller
         //
         // $uuid = Str::uuid()->toString();
         
-
+        
         
         $product = Product::findOrFail($request->post('product_id'));
         $quantity = $request->post('quantity');
-        $variationValue = $request->post('variation_value');
 
-        $cart->add($product, $quantity, $variationValue);
+        // $variationValue = $request->post('variation_value');
+        // $cart->add($product, $quantity, $variationValue);
 
+        $variationValues = $request->input('variation_value');
+        if (!is_array($variationValues)) {
+            $variationValues = [$variationValues];
+        }
+
+        foreach ($variationValues as $variationValue) {
+            $cart->add($product, $quantity, $variationValue);
+        }
+
+
+        return response()->view('Front.index', [
+            'cart' => $cart,
+        ]);
     }
 
     /**

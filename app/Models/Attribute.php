@@ -23,6 +23,11 @@ class Attribute extends Model
 
 
 
+    public function attributeValues()
+    {
+        return $this->hasMany(AttributeValues::class);
+    }
+
 
     public function getNameAttribute()
     {

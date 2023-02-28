@@ -21,29 +21,31 @@ class CartModelRepository implements CartRepository
     }
 
 
-    public function add(Product $product, $quantity = 1, $variationValue)
+    public function add(Product $product, $quantity = 1, $variationValues)
     {
         if ($quantity === null) {
             $quantity = 1;
         }
-        $item = Cart::where('variation_value', $variationValue)
-            ->where('cookie_id', $this->getCookieId())
-            ->first();
+        $variationValuesArray = explode(',', $variationValues);
+        foreach ($variationValuesArray as $variationValue) {
+            $item = Cart::where('variation_value', $variationValue)
+                ->where('cookie_id', $this->getCookieId())
+                ->first();
 
-        if (!$item) {
-            $item = Cart::create([
-                'id' => Str::uuid(),
-                'cookie_id' => $this->getCookieId(),
-                'user_id' => Auth::id(),
-                'product_id' => $product->id,
-                'quantity' => $quantity,
-                'variation_value' => $variationValue,
-            ]);
-        } else {
-            $item->increment('quantity', $quantity);
-        }
+            if (!$item) {
+                $item = Cart::create([
+                    'id' => Str::uuid(),
+                    'cookie_id' => $this->getCookieId(),
+                    'user_id' => Auth::id(),
+                    'product_id' => $product->id,
+                    'quantity' => $quantity,
+                    'variation_value' => $variationValue,
+                ]);
+            } else {
+                $item->increment('quantity', $quantity);
+            }
     }
-
+    }
 
     public function update($id, $quantity, $variationValue)
     {

@@ -1,7 +1,7 @@
 <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
     <form action="" method="post" id="updateProductForm">
         <?php echo csrf_field(); ?>
-        <input type="text" style="display: none;" class="form-control" value="<?php echo e($product->id); ?>" name="up_id" id="up_id">
+        
 
 
 

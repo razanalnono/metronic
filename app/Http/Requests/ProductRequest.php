@@ -28,7 +28,7 @@ class ProductRequest extends FormRequest
             'name_en' => ['required', Rule::unique('products', 'name->en')],
             'name_ar' => ['required', Rule::unique('products', 'name->ar')],
             'category_id' => 'required|exists:categories,id',
-            'quantity' => 'required|min:1',
+          //  'quantity' => 'required|min:1',
             'price' => 'required',
             'description' => 'required',
             'image' => 'required'

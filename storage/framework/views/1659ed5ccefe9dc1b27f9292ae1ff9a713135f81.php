@@ -36,7 +36,7 @@
                         <div class="product-images">
                             <main id="gallery">
                                 <div class="main-img">
-                                    <img src="<?php echo e($product->image); ?>" id="current" alt="#">
+                                    <img src="https://via.placeholder.com/1000x670" id="current" alt="#">
                                 </div>
                                 <div class="images">
                                     <img src="https://via.placeholder.com/1000x670" class="img" alt="#">
@@ -65,25 +65,22 @@
                                         min="1">
                                 </div>
 
+                              <div class="form-group">
+                                <?php $__currentLoopData = $attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="form-group">
-
-                                    <?php $__currentLoopData = $attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="form-group">
-                                        <label for="<?php echo e($attribute->name); ?>"><?php echo e($attribute->name); ?></label>
-                                        <select name="variation_value" id="<?php echo e($attribute->name); ?>" class="form-control">
-                                            <?php $__currentLoopData = $product->variations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php $__currentLoopData = $variation->values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php if($value->attribute_id == $attribute->id): ?>
-                                            <option name="variation_value" value="<?php echo e($value->id); ?>"><?php echo e($value->value); ?>
-
-                                            </option>
-                                            <?php endif; ?>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        </select>
-                                    </div>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <label for="<?php echo e($attribute->name); ?>"><?php echo e($attribute->name); ?></label>
+                                    <select name="variation_value[]" id="<?php echo e($attribute->name); ?>" class="form-control">
+                                        <?php $__currentLoopData = $product->variations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $__currentLoopData = $variation->values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php if($value->attribute_id == $attribute->id): ?>
+                                        <option value="<?php echo e($value->id); ?>"><?php echo e($value->value); ?></option>
+                                        <?php endif; ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
                                 </div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </div>
                                 <button type="submit" class="btn btn-primary">Add to cart</button>
                             </form>
 

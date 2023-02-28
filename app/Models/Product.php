@@ -31,11 +31,7 @@ class Product extends Model
     {
         return $this->belongsToMany(Attribute::class, 'product_attributes')->withPivot('value');
     }
-
-
-
-    
-    
+  
     public function category()
     {
         return $this->belongsTo(Category::class)->withDefault([
@@ -43,10 +39,23 @@ class Product extends Model
         ]);
     }
 
-    public function variations()
-    {
-        return $this->hasMany(Variation::class);
+
+    public function attributeValues(){
+        return $this->hasMany(AttributeValues::class);
     }
+    
+    public function productVariants()
+    {
+        return $this->hasMany(ProductVariants::class);
+    }
+
+    
+    
+
+    // public function variations()
+    // {
+    //     return $this->hasMany(Variation::class);
+    // }
 
 
 

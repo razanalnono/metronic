@@ -67,6 +67,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'description' => $request->description,
             'is_enabled' => $request->is_enabled ? 1 : 0,
+            'is_stockable'=>$request->is_stockable? 1:0,
             'image' => $image_url
         ]);
 
@@ -86,7 +87,7 @@ class ProductController extends Controller
         //
 
         $product = Product::findOrFail($id);
-        $cartItems = Cart::where('user_id', auth()->id())->get();
+        //$cartItems = Cart::where('user_id', auth()->id())->get();
 
         //To get all the attribute variations for specific product
         $productVariations = Variation::where('product_id', $id)->get();
@@ -96,7 +97,7 @@ class ProductController extends Controller
 
 
 
-        return response()->view('Front.show',compact(['product','cartItems','attributes']));
+        return response()->view('Front.show',compact(['product','attributes']));
     }
 
     /**

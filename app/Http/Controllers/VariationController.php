@@ -72,7 +72,7 @@ class VariationController extends Controller
     public function store(Request $request)
     {
         //
-
+        //Validate input quantity for the variation
         $product = Product::find($request->product_id);
         $original_quantity = $product->quantity;
         $request->validate([
@@ -141,7 +141,11 @@ class VariationController extends Controller
     public function update(Request $request)
     {
 
-
+        $product = Product::find($request->up_product_id);
+        $original_quantity = $product->up_quantity;
+        $request->validate([
+            'up_quantity' => "integer|max:$original_quantity"
+        ]);
  
         
         $variation = Variation::where('id',$request->up_id)->first();

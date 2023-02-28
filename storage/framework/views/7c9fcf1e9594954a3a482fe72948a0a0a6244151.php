@@ -78,11 +78,13 @@ toastr.success('Success messages');
 // window.reload(true);
 
 }
-},error:function(err){
-let error=err.responseJSON;
-$.each(error.errors,function(index,value){
-$('.errMsg').append('<span class="text-danger">'+value+'</span>'+'<br>');
-});
+},error:function(error){
+var formErr=error.responseJSON.errors;
+console.log(error);
+$('.formErrors').html('');
+for(var err in formErr){
+$('.'+err+'_err').html(formErr[err][0]);
+}
 }
 });
 
