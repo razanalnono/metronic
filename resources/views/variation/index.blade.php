@@ -85,7 +85,6 @@
                                 @if(isset($variation['attributes']))
                                 @foreach($variation['attributes'] as $attribute)
                                 {{$attribute['name']}}: {{$attribute['attributes_value']['value']}}
-                                    <?php echo "</br>"; ?>
                                 @endforeach
                                 @endif
                             </span>

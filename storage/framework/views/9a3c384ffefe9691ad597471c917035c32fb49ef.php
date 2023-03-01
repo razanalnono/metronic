@@ -37,6 +37,7 @@
            </td>
 
 
+                        <td><?php echo e($variant->price); ?></td>
                         <td><?php echo e($variant->quantity); ?></td>
                         <td>
                             <div class="btn-group" style="position: relative; left:-10px;">
@@ -112,6 +113,6 @@
 <?php $__env->startSection('scripts'); ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <?php echo $__env->make('ProductVariants.attribute', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
+<?php echo $__env->make('ProductVariants.addAttribute', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layout.default', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\metronic_v7.2.8_2\metronic_v7.2.8\theme\html_laravel\demo1\skeleton\resources\views/ProductVariants/index.blade.php ENDPATH**/ ?>

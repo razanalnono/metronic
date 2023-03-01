@@ -124,6 +124,8 @@
                              left: -2pc;">{{$product->category->name}}</span>
                         </td>
 
+                        
+
 
                         <td>
                             <div class="btn-group" style="position: relative; left:-60px;">
@@ -198,7 +200,7 @@
 
 
 
-            {{ $products->links() }}
+            {{-- {{ $products->links() }} --}}
 
         </div>
         <!--end: Datatable-->

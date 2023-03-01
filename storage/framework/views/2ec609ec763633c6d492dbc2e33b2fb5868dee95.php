@@ -126,6 +126,8 @@
                              left: -2pc;"><?php echo e($product->category->name); ?></span>
                         </td>
 
+                        
+
 
                         <td>
                             <div class="btn-group" style="position: relative; left:-60px;">
@@ -200,8 +202,7 @@
 
 
 
-            <?php echo e($products->links()); ?>
-
+            
 
         </div>
         <!--end: Datatable-->

@@ -11,6 +11,7 @@ use App\Traits\imageUpload;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\VariationValue;
+use App\Models\ProductVariants;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Storage;
@@ -27,9 +28,11 @@ class ProductController extends Controller
     {
         //
 
+        $attributes = Attribute::all();
+        $variants = ProductVariants::with(['product', 'attributeValues'])->get();
         $categories = Category::all();
-        $products = Product::with('category')->simplePaginate(7);
-        return view('products_js.index', compact('products', 'categories'));
+        $products = Product::with('category')->get();
+        return view('products_js.index', compact('products', 'categories','attributes','variants'));
     }
 
     /**
@@ -58,8 +61,8 @@ class ProductController extends Controller
         $image = $request->file('image');
         $folder = 'images/products';
         $image_url = $this->imageUpload($image, $folder);
-       
-        Product::create([
+
+        $product =  Product::create([
             'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
             'slug' => Str::slug($request->name_en),
             'category_id' => $request->category_id,
@@ -67,14 +70,32 @@ class ProductController extends Controller
             'price' => $request->price,
             'description' => $request->description,
             'is_enabled' => $request->is_enabled ? 1 : 0,
-            'is_stockable'=>$request->is_stockable? 1:0,
+            'is_stockable' => $request->is_stockable ? 1 : 0,
             'image' => $image_url
         ]);
+
+
+
+        if ($request->have_variation) {
+            // $product = $product->id;
+            $original_quantity = $product->quantity;
+            $request->validate([
+                'quantity' => "integer|max:$original_quantity"
+            ]);
+            foreach ($request->attributevalues_id as $variationvalue_id) {
+                ProductVariants::create([
+                    'product_id' => $product->id,
+                    'quantity' => $request->var_quantity,
+                    'price' => $request->var_price,
+                    'attributevalues_id' => $variationvalue_id,
+                ]);
+            }
+
 
         return response()->json([
             'status' => 'success',
         ]);
-    }
+        }}
 
     /**
      * Display the specified resource.

@@ -17,11 +17,11 @@ class ProductVariantsController extends Controller
      */
     public function index()
     {
-
+        $attributes=Attribute::all();
         $products=Product::all();
         $variants = ProductVariants::with(['product', 'attributeValues'])->get();
 
-        return view('ProductVariants.index', compact('variants','products'));
+        return view('ProductVariants.index', compact('variants','products','attributes'));
     }
 
 

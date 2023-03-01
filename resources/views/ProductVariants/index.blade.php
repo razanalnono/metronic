@@ -36,6 +36,7 @@
            </td>
 
 
+                        <td>{{ $variant->price }}</td>
                         <td>{{ $variant->quantity }}</td>
                         <td>
                             <div class="btn-group" style="position: relative; left:-10px;">
@@ -111,5 +112,5 @@
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @include('ProductVariants.attribute')
-{{-- @include('ProductVariants.addAttribute') --}}
+@include('ProductVariants.addAttribute')
 @endsection

@@ -20,30 +20,30 @@
                     <span class="text-danger formErrors value_id"></span>
                 </div>
 
-<div class="form-group col-md-12">
-    <label for="attributes">Attributes</label>
-    @foreach($attributes as $attribute)
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-check">
-                <input class="form-check-input attribute-checkbox" type="checkbox" name="attributes[]"
-                    value="{{ $attribute->id }}" id="attribute_{{ $attribute->id }}">
-                <label class="form-check-label" for="attribute_{{ $attribute->id }}">
-                    {{ $attribute->name }}
-                </label>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <select name="attributevalues_id[]" class="form-control attribute-values-select"
-                id="value_{{ $attribute->id }}" multiple style="display:none">
-                @foreach($attribute->attributeValues as $value)
-                <option value="{{ $value->id }}">{{ $value->value }}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-    @endforeach
-</div>
+                <div class="form-group col-md-12">
+                    <label for="attributes">Attributes</label>
+                    @foreach($attributes as $attribute)
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input attribute-checkbox" type="checkbox" name="attributes[]"
+                                    value="{{ $attribute->id }}" id="attribute_{{ $attribute->id }}">
+                                <label class="form-check-label" for="attribute_{{ $attribute->id }}">
+                                    {{ $attribute->name }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <select name="attributevalues_id[]" class="form-control attribute-values-select"
+                                id="value_{{ $attribute->id }}" multiple style="display:none">
+                                @foreach($attribute->attributeValues as $value)
+                                <option value="{{ $value->id }}">{{ $value->value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
                 <div class="form-group row col-md-12 ">
                     <div class="form-group col-md-3">
                         <label for="price">Price</label>
@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="modal-body">
-            
+
 
 
 
@@ -76,7 +76,7 @@
 </div>
 
 <script>
-// Show attribute values select when its checkbox is checked
+    // Show attribute values select when its checkbox is checked
 $('.attribute-checkbox').on('change', function() {
 var select = $(this).closest('.row').find('.attribute-values-select');
 if (this.checked) {
