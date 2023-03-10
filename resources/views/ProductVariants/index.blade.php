@@ -1,10 +1,7 @@
 @extends('layout.default')
 
 @section('content')
-<form method="POST" action="{{ route('logout') }}">
-    @csrf
 
-</form>
 <div class="card card-custom">
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
@@ -17,6 +14,7 @@
             <table class="table  table-hover">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Product</th>
                         <th>Attributes</th>
                         <th>Price</th>
@@ -27,13 +25,24 @@
                 <tbody>
                     @foreach ($variants as $variant)
                     <tr>
+                        <td>{{ $variant->id }}</td>
                         <td>{{ $variant->product->name }}</td>
 
 
-                        
-           <td>
-            {{ $variant->attributeValues->attribute->name }}:{{ $variant->attributeValues->value }}
-           </td>
+                        <td data-field="Order ID" aria-label="54753-003" class="datatable-cell">
+                            <span style="width: 126px; position: relative;
+                                                         left: 0pc;">
+
+
+                                @foreach ($variant->att_value as $att_val)
+                                <span style="color:#333;font-weight:bold">{{ $att_val->attribute->name .':'}} </span>
+                                <span>{{ $att_val->value }}</span>
+                                <br>
+                                @endforeach
+
+
+                            </span>
+                        </td>
 
 
                         <td>{{ $variant->price }}</td>
@@ -41,8 +50,9 @@
                         <td>
                             <div class="btn-group" style="position: relative; left:-10px;">
                                 <a href="#"
-                                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 updateAttributeForm"
-                                    data-bs-toggle="modal" data-bs-target="#updateModal" data-id="{{ $variant->id }}">
+                                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 updateVariantForm"
+                                    data-bs-toggle="modal" data-bs-target="#updateModal" data-id="{{ $variant->id }}"
+                                    data-quantity="{{$variant->quantity }}" data-price="{{ $variant->price }}">
                                     <span class="svg-icon svg-icon-md svg-icon-primary">
                                         <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Write.svg-->
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -61,13 +71,14 @@
                                             </g>
                                         </svg>
                                         <!--end::Svg Icon-->
+
                                     </span>
                                 </a>
 
                                 <form method="POST" action="#">
                                     @csrf
                                     @method('delete')
-                                    <button class="btn  deleteAttribute" data-id="{{ $variant->id }}">
+                                    <button class="btn  deleteVariant" data-id="{{ $variant->id }}">
                                         <span class="svg-icon svg-icon-md svg-icon-primary">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -99,18 +110,13 @@
         </div>
     </div>
 
-    <div class="float-xl-right mr-5" style="margin-top: 1rem;">
-        <button type="button" class="btn btn-primary font-weight-bolder btn-md addAttributeForm" data-bs-toggle="modal"
-            data-bs-target="#addModal">
-            New Variant
-        </button>
-    </div>
+
 </div>
 @endsection
 
 
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-@include('ProductVariants.attribute')
-@include('ProductVariants.addAttribute')
+@include('ProductVariants.variant')
+@include('ProductVariants.updateVariant')
 @endsection

@@ -22,15 +22,7 @@ class Product extends Model
     protected $hidden = ['created_at', 'updated_at'];
     public $translatable = ['name'];
 
-    // protected $attributes = [
-    //     'is_enabled' => 0,
-    // ];
-
-
-    public function attributes()
-    {
-        return $this->belongsToMany(Attribute::class, 'product_attributes')->withPivot('value');
-    }
+ 
   
     public function category()
     {
@@ -48,19 +40,6 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariants::class);
     }
-
-    
-    
-
-    // public function variations()
-    // {
-    //     return $this->hasMany(Variation::class);
-    // }
-
-
-
-
-
 
 
 
@@ -85,12 +64,5 @@ class Product extends Model
 
 
 
-    // protected static function booted()
-    // {
-    //     static::forceDeleted(function (Product $product) {
-    //         if ($product->image) {
-    //             Storage::disk('public')->delete("images/products". $product->image);
-    //         }
-    //     });
-    // }
+
 }

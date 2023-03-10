@@ -38,7 +38,6 @@
     }
     },error:function(error){
     var formErr=error.responseJSON.errors;
-    console.log(error);
     $('.formErrors').html('');
     for(var err in formErr){
     $('.'+err+'_err').html(formErr[err][0]);
@@ -50,13 +49,13 @@
          
          //return updated value
 
-$(document).on('click','.updateAttributeForm',function(){
-let id=$(this).data('id');
-let name=$(this).data('name');
+        $(document).on('click','.updateAttributeForm',function(){
+        let id=$(this).data('id');
+        let name=$(this).data('name');
 
-$('#up_id').val(id);
-$('#up_name').val(name);
-});
+        $('#up_id').val(id);
+        $('#up_name').val(name);
+        });
 
 
 
@@ -78,15 +77,16 @@ $('#updateModal').modal('hide');
 $('#updateAttributeForm')[0].reset();
 location.reload(true)
 toastr.success('Success messages');
-// $('.table').load(location.href+'.table');
-// window.reload(true);
+$('.table').load(location.href+'.table');
+window.reload(true);
 
 }
-},error:function(err){
-let error=err.responseJSON;
-$.each(error.errors,function(index,value){
-$('.errMsg').append('<span class="text-danger">'+value+'</span>'+'<br>');
-});
+},error:function(error){
+var formErr=error.responseJSON.errors;
+$('.formErrors').html('');
+for(var err in formErr){
+$('.'+err+'_err').html(formErr[err][0]);
+}
 }
 });
 
@@ -112,8 +112,8 @@ $(document).on('click','.deleteAttribute',function(e){
     location.reload(true)
     toastr.success('Success messages');
     // console.log(res.status);
-    // $('.table').load(location.href+'.table');
-    // window.reload(true);
+    $('.table').load(location.href+'.table');
+    window.reload(true);
     
     }
     

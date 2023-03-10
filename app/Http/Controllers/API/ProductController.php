@@ -3,20 +3,24 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Product;
+use App\Models\Attribute;
 use App\Models\Variation;
-use App\Jobs\EnableProduct;
 
+use App\Jobs\EnableProduct;
 use App\Traits\apiResponse;
 use App\Traits\imageUpload;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Events\AddProductEvent;
+use App\Models\AttributeValues;
+use App\Models\ProductVariants;
 use App\Notifications\AddProduct;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use Symfony\Component\HttpFoundation\Response;
+use League\CommonMark\Extension\Attributes\Node\Attributes;
 
 class ProductController extends Controller
 {
@@ -42,6 +46,8 @@ class ProductController extends Controller
         $data['products']  = ProductResource::collection($products);
         $data['has_more_page'] = $products->hasMorePages();
         return $this->apiResponse($data, 'تم تنفيذ العملية بنجاح');
+        
+
     }
 
 
@@ -86,11 +92,32 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
-        //return $this->apiResponse(new ProductResource(Product::findOrFail($id)), 'Done', Response::HTTP_OK);
-        $product = Product::with('variations.attributes')->findOrFail($id);
-    //    return $product;
-          return $this->apiResponse(new ProductResource($product), 'Product added successfully!', Response::HTTP_CREATED);
+
+        $product = Product::with('productVariants')->where('id', $id)->first();
+        $variants = $product->productVariants->map(function ($variant) {
+            return [
+                'id' => $variant->id,
+                'attribute_values' => $variant->attributeValues,
+                'price' => $variant->price,
+                'quantity' => $variant->quantity
+            ];
+        });
+        $result = [
+            'product' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'description' => $product->description,
+                'category_id' => $product->category_id
+            ],
+            'variants' => $variants
+        ];
+
+        return response()->json($result);
 
     }
+
+
+
+
+
 }

@@ -21,9 +21,9 @@ class OrderItem extends Pivot
         return $this->belongsTo(Product::class);
     }
 
-    public function variations()
+    public function variants()
     {
-        return $this->belongsTo(VariationValue::class);
+        return $this->belongsTo(ProductVariants::class);
     }
     public function order()
     {

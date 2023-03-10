@@ -11,7 +11,7 @@
                     <div class="form-group">
                         <label for="name">Attribute Name</label>
                         <input type="text" class="form-control " name="name" id="name">
-                        <span class="text-danger formErrors attribute_errr "></span>
+                        <span class="text-danger formErrors name_err "></span>
                     </div>
 
               

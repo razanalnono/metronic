@@ -45,9 +45,9 @@ return [
 
 
         [
-            'title' => 'Variation',
+            'title' => 'Variants',
             'icon' => 'media/svg/icons/Layout/Layout-4-blocks.svg',
-            'page' => '/variation',
+            'page' => '/variants',
             'bullet' => 'line',
             'root' => true,
 

@@ -25,7 +25,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <meta name="description" content="@yield('page_description', $page_description ?? '')" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    {{-- Toaster RAZAAAAAAN --}}
+    {{-- Toaster  --}}
     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
     <link rel="stylesheet" href="{{ asset('css/pages/login/login-1.css') }}">

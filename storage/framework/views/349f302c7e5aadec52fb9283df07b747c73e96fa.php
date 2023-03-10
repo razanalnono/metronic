@@ -1,7 +1,7 @@
 <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
     <form action="" method="post" id="updateAttributeForm">
         <?php echo csrf_field(); ?>
-
+<input type="text" style="display: none;" class="form-control" value="<?php echo e($attribute->id); ?>" name="up_id" id="up_id">      
 
 
 
@@ -15,7 +15,7 @@
                     <div class="form-group">
                         <label for="name">Attribute Name</label>
                         <input type="text" class="form-control" name="up_name" id="up_name">
-                        <div class="errName"></div>
+                        <span class="text-danger formeErrors up_name_err "></span>
                     </div>
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
@@ -11,10 +12,13 @@ use App\Traits\imageUpload;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\VariationValue;
+use App\Models\AttributeValues;
 use App\Models\ProductVariants;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Input\Input;
 
 class ProductController extends Controller
 {
@@ -26,13 +30,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
-
-        $attributes = Attribute::all();
-        $variants = ProductVariants::with(['product', 'attributeValues'])->get();
+  
         $categories = Category::all();
-        $products = Product::with('category')->get();
-        return view('products_js.index', compact('products', 'categories','attributes','variants'));
+        $attributes = Attribute::all();
+        $variants = ProductVariants::with(['product'])->get();
+       $variant = ProductVariants::all();
+        $products=Product::all();
+        return view('products_js.index', compact('variants', 'attributes', 'categories','products'));
     }
 
     /**
@@ -42,8 +46,15 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
 
+        $categories = Category::all();
+        $attributes = Attribute::all();
+        $variants = ProductVariants::with(['product'])->get();
+        $variant = ProductVariants::all();
+        $products = Product::all();
+        
+
+        return view('products_js.create', compact('variants', 'attributes', 'categories', 'products'));
 
 
     }
@@ -57,45 +68,91 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         //
-       
-        $image = $request->file('image');
-        $folder = 'images/products';
-        $image_url = $this->imageUpload($image, $folder);
 
-        $product =  Product::create([
-            'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
-            'slug' => Str::slug($request->name_en),
-            'category_id' => $request->category_id,
-            'quantity' => $request->quantity,
-            'price' => $request->price,
-            'description' => $request->description,
-            'is_enabled' => $request->is_enabled ? 1 : 0,
-            'is_stockable' => $request->is_stockable ? 1 : 0,
-            'image' => $image_url
-        ]);
+        try {
+            $image = $request->file('image');
+            $folder = 'images/products';
+            $image_url = $this->imageUpload($image, $folder);
 
-
-
-        if ($request->have_variation) {
-            // $product = $product->id;
-            $original_quantity = $product->quantity;
-            $request->validate([
-                'quantity' => "integer|max:$original_quantity"
+            $product =  Product::create([
+                'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
+                'slug' => Str::slug($request->name_en),
+                'category_id' => $request->category_id,
+                'quantity' => $request->quantity,
+                'price' => $request->price,
+                'description' => $request->description,
+                'is_enabled' => $request->is_enabled ? 1 : 0,
+                'is_stockable' => $request->is_stockable ? 1 : 0,
+                'image' => $image_url
             ]);
-            foreach ($request->attributevalues_id as $variationvalue_id) {
-                ProductVariants::create([
-                    'product_id' => $product->id,
-                    'quantity' => $request->var_quantity,
-                    'price' => $request->var_price,
-                    'attributevalues_id' => $variationvalue_id,
-                ]);
+
+            // Initialize an empty array to store the attribute values
+            if($request->have_variation){
+            $attribute_values = $request->attribute_values;
+
+            $result = [
+                "attributevalue" => [],
+                "attribute_values" => []
+            ];
+
+         //   $attribute_count = count($attribute_values);
+
+            foreach ($attribute_values as $attribute_id => $values) {
+                // Add the attribute values to the result array
+                $result["attribute_values"][$attribute_id] = $values;
+                // Loop through each value
+                foreach ($values as $value) {
+                    // Add the value to the attributevalue array
+                    $result["attributevalue"][] = $value;
+                }
             }
 
+            // Create all possible combinations of the attribute values
+            $combinations = [];
+            foreach ($result["attribute_values"] as $values) {
+                if (empty($combinations)) {
+                    foreach ($values as $value) {
+                        $combinations[] = [$value];
+                    }
+                } else {
+                    $new_combinations = [];
+                    foreach ($combinations as $combination) {
+                        foreach ($values as $value) {
+                            $new_combination = array_merge($combination, [$value]);
+                            $new_combinations[] = $new_combination;
+                        }
+                    }
+                    $combinations = $new_combinations;
+                }
+            }
 
-        return response()->json([
-            'status' => 'success',
-        ]);
-        }}
+            // Create a product variant for each selected value
+            foreach ($combinations as $combination) {
+                ProductVariants::create([
+                    'product_id' => $product->id,
+                    'attribute_value' => json_encode($combination),
+                ]);
+            }
+        }
+            // Convert the attribute values array to a JSON string and store it in the product's attributes field
+            $product->save();
+
+            return response()->json([
+                'status' => 'success',
+            ]);
+        } catch (\Exception $e) {
+            // If an error occurs during the creation of product variants, delete the product and return an error message
+            if (isset($product)) {
+                $product->delete();
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+    }
 
     /**
      * Display the specified resource.
@@ -111,14 +168,11 @@ class ProductController extends Controller
         //$cartItems = Cart::where('user_id', auth()->id())->get();
 
         //To get all the attribute variations for specific product
-        $productVariations = Variation::where('product_id', $id)->get();
-        $variationValues = VariationValue::whereIn('variation_id', $productVariations->pluck('id'))->get();
-        $attributeIds = $variationValues->pluck('attribute_id')->unique();
-        $attributes = Attribute::whereIn('id', $attributeIds)->get(['id', 'name']);
+      $variants= ProductVariants::with('product')->get();
 
 
 
-        return response()->view('Front.show',compact(['product','attributes']));
+        return response()->view('Front.show', compact(['product', 'attributes']));
     }
 
     /**
@@ -139,9 +193,21 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
-        //
+        $product=   Product::findOrFail($id);
+        $old_image=$product->image;
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $folder = 'images/products';
+            $image_url = $this->imageUpload($image, $folder);
+            $data['image']=$image_url;
+        }
+        $product->update($data); 
+        if($old_image && isset($data['image'])){
+            Storage::disk('public')->delete($old_image);
+        }
+        
         Product::where('id', $request->up_id)->update([
             'name' => ['en' => $request->up_name_en, 'ar' => $request->up_name_ar],
             'slug' => Str::slug($request->up_name_en),
@@ -150,7 +216,6 @@ class ProductController extends Controller
             'category_id' => $request->up_category_id,
             'description' => $request->up_description,
             'is_enabled' => $request->up_is_enabled ? 1 : 0,
-            'image' => $request->up_image,
         ]);
 
         return response()->json([
@@ -166,42 +231,53 @@ class ProductController extends Controller
      */
     public function destroy(Request $request)
     {
-          Product::findOrFail($request->product_id)->delete();
-     
-      
+        $product = Product::findOrFail($request->product_id);
+
+        if ($product->image) {
+            Storage::disk('public')->delete($product->image);
+        }
+
+        $product->delete();
+
         return response()->json([
             'status' => 'success'
         ]);
-
-    
     }
 
-    public function trash(){
+    
+
+    public function trash()
+    {
 
         $categories = Category::all();
         $products = Product::with('category')->onlyTrashed()->get();
         return view('products_js.trash', compact('products', 'categories'));
-        
-}
-
-public function restore(Request $request,$id){
- $product=Product::onlyTrashed()->findOrFail($id);
- $product->restore();
-$view=view('products_js.trash');
- return response()->json([
-    'view' => $view,
-    'status' => 'success'
-    
- ]);
-}
-
-    public function forceDelete($id){
-        $product=Product::onlyTrashed()->findOrFail($id);
-       $images= $product->image;
-       $product->forceDelete();
-       if($product->image){
-        Storage::disk('images')->delete($product->image);
-       }
     }
+
+    public function restore(Request $request, $id)
+    {
+        $product = Product::onlyTrashed()->findOrFail($id);
+        $product->restore();
+        $view = view('products_js.trash');
+        return response()->json([
+            'view' => $view,
+            'status' => 'success'
+
+        ]);
+    }
+
+    public function forceDelete($id)
+    {
+        $product = Product::onlyTrashed()->findOrFail($id);
+        $image = $product->image;
+        $product->forceDelete();
+        if ($image) {
+            $path = public_path($image);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+    }
+
 
 }

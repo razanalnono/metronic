@@ -40,6 +40,12 @@ class AttributeValuesController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'attribute_id' =>'required',
+           'value' =>'required',
+        ]);
+        
         AttributeValues::create(
             [
                 'attribute_id' => $request->attribute_id,
@@ -79,10 +85,17 @@ class AttributeValuesController extends Controller
      * @param  \App\Models\AttributeValues  $attributeValues
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AttributeValues $attributeValues)
+    public function update(Request $request)
     {
-        //
-    }
+        AttributeValues::where('id', $request->up_id)->update([
+            'attribute_id'=>$request->attribute_id,
+            'value' => $request->up_value,
+
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+        ]);    }
 
     /**
      * Remove the specified resource from storage.
@@ -90,8 +103,13 @@ class AttributeValuesController extends Controller
      * @param  \App\Models\AttributeValues  $attributeValues
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AttributeValues $attributeValues)
+    public function destroy(Request $request)
     {
         //
+
+        AttributeValues::find($request->attributeValue_id)->delete();
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 }

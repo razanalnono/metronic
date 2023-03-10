@@ -1,10 +1,7 @@
 
 
 <?php $__env->startSection('content'); ?>
-<form method="POST" action="<?php echo e(route('logout')); ?>">
-    <?php echo csrf_field(); ?>
 
-</form>
 <div class="card card-custom">
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
@@ -17,6 +14,7 @@
             <table class="table  table-hover">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Product</th>
                         <th>Attributes</th>
                         <th>Price</th>
@@ -27,14 +25,24 @@
                 <tbody>
                     <?php $__currentLoopData = $variants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variant): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
+                        <td><?php echo e($variant->id); ?></td>
                         <td><?php echo e($variant->product->name); ?></td>
 
 
-                        
-           <td>
-            <?php echo e($variant->attributeValues->attribute->name); ?>:<?php echo e($variant->attributeValues->value); ?>
+                        <td data-field="Order ID" aria-label="54753-003" class="datatable-cell">
+                            <span style="width: 126px; position: relative;
+                                                         left: 0pc;">
 
-           </td>
+
+                                <?php $__currentLoopData = $variant->att_value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $att_val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <span style="color:#333;font-weight:bold"><?php echo e($att_val->attribute->name .':'); ?> </span>
+                                <span><?php echo e($att_val->value); ?></span>
+                                <br>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+
+                            </span>
+                        </td>
 
 
                         <td><?php echo e($variant->price); ?></td>
@@ -42,8 +50,9 @@
                         <td>
                             <div class="btn-group" style="position: relative; left:-10px;">
                                 <a href="#"
-                                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 updateAttributeForm"
-                                    data-bs-toggle="modal" data-bs-target="#updateModal" data-id="<?php echo e($variant->id); ?>">
+                                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 updateVariantForm"
+                                    data-bs-toggle="modal" data-bs-target="#updateModal" data-id="<?php echo e($variant->id); ?>"
+                                    data-quantity="<?php echo e($variant->quantity); ?>" data-price="<?php echo e($variant->price); ?>">
                                     <span class="svg-icon svg-icon-md svg-icon-primary">
                                         <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Write.svg-->
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -62,13 +71,14 @@
                                             </g>
                                         </svg>
                                         <!--end::Svg Icon-->
+
                                     </span>
                                 </a>
 
                                 <form method="POST" action="#">
                                     <?php echo csrf_field(); ?>
                                     <?php echo method_field('delete'); ?>
-                                    <button class="btn  deleteAttribute" data-id="<?php echo e($variant->id); ?>">
+                                    <button class="btn  deleteVariant" data-id="<?php echo e($variant->id); ?>">
                                         <span class="svg-icon svg-icon-md svg-icon-primary">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -100,19 +110,14 @@
         </div>
     </div>
 
-    <div class="float-xl-right mr-5" style="margin-top: 1rem;">
-        <button type="button" class="btn btn-primary font-weight-bolder btn-md addAttributeForm" data-bs-toggle="modal"
-            data-bs-target="#addModal">
-            New Variant
-        </button>
-    </div>
+
 </div>
 <?php $__env->stopSection(); ?>
 
 
 <?php $__env->startSection('scripts'); ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<?php echo $__env->make('ProductVariants.attribute', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('ProductVariants.addAttribute', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('ProductVariants.variant', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('ProductVariants.updateVariant', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layout.default', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\metronic_v7.2.8_2\metronic_v7.2.8\theme\html_laravel\demo1\skeleton\resources\views/ProductVariants/index.blade.php ENDPATH**/ ?>

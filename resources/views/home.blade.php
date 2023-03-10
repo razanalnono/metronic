@@ -298,7 +298,7 @@
                         <div class="card-body p-0 row" style=" height=100rem;">
                             <!--begin::Image-->
                             <div class=" rounded  text-center col-md-5" style="height: 15rem;">
-                                <img src="{{ $product->imageUpload($product->image, '/') }}" alt="" class="w-400px" style="height: inherit; width:1000rem; 
+                                <img src="{{ $product->image }}" alt="" class="w-400px" style="height: inherit; width:1000rem; 
                             ">
                             </div>
                             <!--end::Image-->
@@ -314,7 +314,7 @@
                           <div class="m-5">
                   
                             Add To Cart
-                            <a href="{{ route('products.show', ['id' => $product->id]) }}">
+                            {{-- <a href="{{ route('products.show', ['id' => $product->id]) }}"> --}}
 <span class="svg-icon svg-icon-primary svg-icon-2x">
             <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Shopping/Cart1.svg--><svg
                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"

@@ -19,7 +19,7 @@
        formData.append('image', $('#image')[0].files[0]);
         // console.log(name+slug);
     $.ajax({
-    url:"<?php echo e(route('add.product')); ?>",
+    url:"<?php echo e(route('products.store')); ?>",
     method:'post',
     data:formData,
     processData: false,

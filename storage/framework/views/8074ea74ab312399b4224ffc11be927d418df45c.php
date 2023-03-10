@@ -85,7 +85,6 @@
                                 <?php $__currentLoopData = $variation['attributes']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php echo e($attribute['name']); ?>: <?php echo e($attribute['attributes_value']['value']); ?>
 
-                                    <?php echo "</br>"; ?>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <?php endif; ?>
                             </span>

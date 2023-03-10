@@ -55,7 +55,7 @@
 
                     <div class="form-group col-md-3">
                         <label for="quantity">Quantity</label>
-                        <input type="text" class="form-control" name="quantity" id="quantity">
+                        <input type="number" class="form-control" name="quantity" id="quantity">
                         <span class="text-danger formErrors quantity_err"></span>
                     </div>
                 </div>

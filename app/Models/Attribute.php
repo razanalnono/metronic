@@ -16,12 +16,6 @@ class Attribute extends Model
     public $hidden=['deleted_at'];
 
 
-    public function variation_values()
-    {
-        return $this->hasMany(VariationValue::class);
-    }
-
-
 
     public function attributeValues()
     {
@@ -34,11 +28,5 @@ class Attribute extends Model
         return json_decode($this->attributes['name']);
     }
     
-    // public function variations()
-    // {
-    //     return $this->belongsToMany(Variation::class, 'variation_values')
-    //     ->withPivot(['value'])
-    //     ->as('attributes_value');
-    // }
 
 }

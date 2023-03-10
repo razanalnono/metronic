@@ -44,7 +44,7 @@
 
 
 
-                    <?php $__currentLoopData = $attributeValues; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php $__currentLoopData = $attributeValues; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$attributeValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
 
 
@@ -56,18 +56,18 @@
 
 
                         <td data-field="Deposit Paid" aria-label="$39286.74" class="datatable-cell"><span
-                                style="width: 126px;"><?php echo e($attribute->attribute->name); ?></span></td>
+                                style="width: 126px;"><?php echo e($attributeValue->attribute->name); ?></span></td>
 
 
                         <td data-field="Deposit Paid" aria-label="$39286.74" class="datatable-cell"><span
-                                style="width: 126px;"><?php echo e($attribute->value); ?></span></td>
+                                style="width: 126px;"><?php echo e($attributeValue->value); ?></span></td>
 
                         <td>
                             <div class="btn-group" style="position: relative; left:-60px;">
-                                <a href="#"
-                                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 updateAttributeForm"
-                                    data-bs-toggle="modal" data-bs-target="#updateModal" data-id="<?php echo e($attribute->id); ?>"
-                                    data-name="<?php echo e($attribute->name); ?>">
+                <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 updateValueForm" data-bs-toggle="modal"
+                    data-bs-target="#updateModal" data-id="<?php echo e($attributeValue->id); ?>"
+                    data-attribute-id="<?php echo e($attributeValue->attribute_id); ?>" data-value="<?php echo e($attributeValue->value); ?>">
+                    
                                     <span class="svg-icon svg-icon-md svg-icon-primary">
                                         <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Write.svg-->
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@
                                 <form method="POST" action="#">
                                     <?php echo csrf_field(); ?>
                                     <?php echo method_field('delete'); ?>
-                                    <button class="btn  deleteAttribute" data-id="<?php echo e($attribute->id); ?>">
+                                    <button class="btn  deleteValue" data-id="<?php echo e($attributeValue->id); ?>">
                                         <span class="svg-icon svg-icon-md svg-icon-primary">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -143,9 +143,9 @@
 
 <?php $__env->startSection('scripts'); ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<?php echo $__env->make('attributeValues.addAttribute', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('attributeValues.attribute', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
+<?php echo $__env->make('attributeValues.addValue', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('attributeValues.value', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('attributeValues.updateValue', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layout.default', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\metronic_v7.2.8_2\metronic_v7.2.8\theme\html_laravel\demo1\skeleton\resources\views/attributeValues/index.blade.php ENDPATH**/ ?>

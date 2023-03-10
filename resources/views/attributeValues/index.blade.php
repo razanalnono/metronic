@@ -44,7 +44,7 @@
 
 
 
-                    @foreach ($attributeValues as $key=>$attribute )
+                    @foreach ($attributeValues as $key=>$attributeValue )
 
 
 
@@ -57,18 +57,18 @@
 
                         <td data-field="Deposit Paid" aria-label="$39286.74" class="datatable-cell"><span
                                 style="width: 126px;">{{
-                                $attribute->attribute->name }}</span></td>
+                                $attributeValue->attribute->name }}</span></td>
 
 
                         <td data-field="Deposit Paid" aria-label="$39286.74" class="datatable-cell"><span
-                                style="width: 126px;">{{ $attribute->value }}</span></td>
+                                style="width: 126px;">{{ $attributeValue->value }}</span></td>
 
                         <td>
                             <div class="btn-group" style="position: relative; left:-60px;">
-                                <a href="#"
-                                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 updateAttributeForm"
-                                    data-bs-toggle="modal" data-bs-target="#updateModal" data-id="{{ $attribute->id }}"
-                                    data-name="{{ $attribute->name}}">
+                <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 updateValueForm" data-bs-toggle="modal"
+                    data-bs-target="#updateModal" data-id="{{ $attributeValue->id }}"
+                    data-attribute-id="{{ $attributeValue->attribute_id }}" data-value="{{ $attributeValue->value }}">
+                    
                                     <span class="svg-icon svg-icon-md svg-icon-primary">
                                         <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Write.svg-->
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +93,7 @@
                                 <form method="POST" action="#">
                                     @csrf
                                     @method('delete')
-                                    <button class="btn  deleteAttribute" data-id="{{ $attribute->id }}">
+                                    <button class="btn  deleteValue" data-id="{{ $attributeValue->id }}">
                                         <span class="svg-icon svg-icon-md svg-icon-primary">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -144,8 +144,8 @@
 
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-@include('attributeValues.addAttribute')
-@include('attributeValues.attribute')
-{{-- @include('attributes.updateAttribute') --}}
+@include('attributeValues.addValue')
+@include('attributeValues.value')
+@include('attributeValues.updateValue')
 
 @endsection

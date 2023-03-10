@@ -54,16 +54,6 @@ class ProductVariantsController extends Controller
         }
 
 
-        // foreach ($request->attribute_values as $attributeId => $valueIds) {
-        //     foreach ($valueIds as $valueId) {
-        //         $attributeValue = new AttributeValues;
-        //         $attributeValue->attribute_id = $attributeId;
-        //         $attributeValue->value_id = $valueId;
-        //         $attributeValue->product_variant_id = $productVariant->id;
-        //         $attributeValue->save();
-        //     }
-        // }
-
         return response()->json([
             'message' => 'success',
         ]);
@@ -99,9 +89,14 @@ class ProductVariantsController extends Controller
      * @param  \App\Models\ProductVariants  $productVariants
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProductVariants $productVariants)
+    public function update(Request $request)
     {
-        //
+        $variant = ProductVariants::findOrFail($request->up_id);
+        $variant->quantity = $request->up_quantity;
+        $variant->price = $request->up_price;
+        $variant->save();
+
+        return response()->json(['status' => 'success']);
     }
 
     /**
@@ -110,8 +105,12 @@ class ProductVariantsController extends Controller
      * @param  \App\Models\ProductVariants  $productVariants
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductVariants $productVariants)
+    public function destroy(Request $request)
     {
-        //
+        ProductVariants::find($request->variant_id)->delete();
+        return response()->json([
+            'status' => 'success',
+        ]);
+    
     }
 }

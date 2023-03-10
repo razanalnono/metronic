@@ -12,7 +12,7 @@ class Category extends Model
 
     // protected $fillable=['name','slug','parent_id'];
     protected $guarded = [];
-    protected  $hidden = ['created_at', 'ugpdated_at'];
+    protected  $hidden = ['created_at', 'updated_at'];
     public $translatable = ['name'];
 
 

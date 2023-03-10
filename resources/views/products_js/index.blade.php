@@ -1,43 +1,10 @@
 @extends('layout.default')
 
-<script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-<script>
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
-
-    var pusher = new Pusher('2461ba2b917f797df8b4', {
-      cluster: 'ap2'
-    });
-
-    var channel = pusher.subscribe('my-channel');
-    channel.bind('my-event', function(data) {
-      
-     swal("Product Has Been Deleted !");
-        //alert(JSON.stringify(data));
-    });
-
-
-    function playAudio() {
-    var x = new Audio(public/media/media.mp3);
-    // Show loading animation.
-    var playPromise = x.play();
-    
-    if (playPromise !== undefined) {
-    playPromise.then(_ => {
-    x.play();.
-    })
-    .catch(error => {
-    });
-    
-    }
-    }
-</script>
-<script>
-    const UserID="{{ Auth::id() }}";
-</script>
-<script src="{{ asset('js/app.js')}}"></script>
-
 @section('content')
+<form method="POST" action="{{ route('logout') }}">
+    @csrf
+
+</form>
 <div class="card card-custom">
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
@@ -47,44 +14,63 @@
 
     </div>
 
-    <div class="float-xl-left" style="position: relative;
-    left: 69pc;"><a href="#" class="btn btn-light-info font-weight-bolder btn-md addProductForm" data-bs-toggle="modal"
-            data-bs-target="#addModal">New Product</a>
+    {{-- <div class="float-xl-left" style="position: relative;
+    left: 69pc;"><a href="#" class="btn btn-light-info font-weight-bolder btn-md addCategoryForm"
+            data-bs-toggle="modal" data-bs-target="#addModal">New Product</a></div> --}}
 
-        <a href="{{ route('trash') }}">
-            <span class="svg-icon svg-icon-primary svg-icon-2x">
-                <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Home/Trash.svg--><svg
-                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
-                    height="24px" viewBox="0 0 24 24" version="1.1">
-                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <rect x="0" y="0" width="24" height="24" />
-                        <path
-                            d="M6,8 L18,8 L17.106535,19.6150447 C17.04642,20.3965405 16.3947578,21 15.6109533,21 L8.38904671,21 C7.60524225,21 6.95358004,20.3965405 6.89346498,19.6150447 L6,8 Z M8,10 L8.45438229,14.0894406 L15.5517885,14.0339036 L16,10 L8,10 Z"
-                            fill="#000000" fill-rule="nonzero" />
-                        <path
-                            d="M14,4.5 L14,3.5 C14,3.22385763 13.7761424,3 13.5,3 L10.5,3 C10.2238576,3 10,3.22385763 10,3.5 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z"
-                            fill="#000000" opacity="0.3" />
-                    </g>
-                </svg>
-                <!--end::Svg Icon-->
-            </span>
-        </a>
-    </div>
+            <div class="float-xl-left" style="position: relative;
+                left: 69pc;">
+                <a href="{{ route('products.create') }}" class="btn btn-light-info font-weight-bolder btn-md ">Create Product</a></div>
     <div class="card-body" style="padding: 2rem 4.25rem;">
+
+        
+<a href="http://127.0.0.1:8000/trashed" class="btn float-right" style="
+    position: absolute;
+  right:10%;
+  top:1%;
+">
+    <span class="svg-icon svg-icon-primary svg-icon-3x">
+        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Communication/Share.svg--><svg
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+            viewBox="0 0 24 24" version="1.1">
+            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <rect x="0" y="0" width="24" height="24"></rect>
+                <path
+                    d="M6,8 L18,8 L17.106535,19.6150447 C17.04642,20.3965405 16.3947578,21 15.6109533,21 L8.38904671,21 C7.60524225,21 6.95358004,20.3965405 6.89346498,19.6150447 L6,8 Z M8,10 L8.45438229,14.0894406 L15.5517885,14.0339036 L16,10 L8,10 Z"
+                    fill="#000000" fill-rule="nonzero"></path>
+                <path
+                    d="M14,4.5 L14,3.5 C14,3.22385763 13.7761424,3 13.5,3 L10.5,3 C10.2238576,3 10,3.22385763 10,3.5 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z"
+                    fill="#000000" opacity="0.3"></path>
+            </g>
+        </svg>
+        <!--end::Svg Icon-->
+    </span></a>
+    </div>
+
+
+                <div class="card-body" style="padding: 2rem 4.25rem;">
 
         <div class="datatable datatable-default datatable-bordered datatable-loaded">
             <table class="datatable-bordered datatable-head-custom datatable-table" id="kt_datatable"
                 style="display: block;">
                 <thead class="datatable-head">
                     <tr class="datatable-row" style="left: 0px;">
-                        <th data-field="Order ID" class="datatable-cell datatable-cell-sort"><span
-                                style="width: 126px;">Product ID</span></th>
-                        <th data-field="Car Make" class="datatable-cell datatable-cell-sort"><span
+                        <th data-field="Order ID" class="datatable-cell datatable-cell-sort"><span style="width: 126px; position: relative;
+                             left: 2pc">#</span></th>
+                        <th data-field=" Car Make" class="datatable-cell datatable-cell-sort"><span
                                 style="width: 126px;">Product Name</span></th>
 
+                        <th data-field="Car Make" class="datatable-cell datatable-cell-sort"><span
+                                style="width: 126px;">Category Name</span>
+                        </th>
 
                         <th data-field="Car Make" class="datatable-cell datatable-cell-sort"><span
-                                style="width: 126px;">Category</span>
+                                style="width: 126px;">Description</span>
+                        </th>
+
+
+                        <th data-field="Car Make" class="datatable-cell datatable-cell-sort"><span
+                                style="width: 126px;">No. Of Variants</span>
                         </th>
 
 
@@ -98,47 +84,46 @@
 
 
 
-                    @foreach ($products as $key=>$product )
+                    @foreach($products as $product)
+
 
 
 
                     <tr data-row="5" class="datatable-row datatable-row-even" style="left: 0px;">
 
 
-                        <td data-field="Order ID" aria-label="54753-003" class="datatable-cell"><span
-                                style="width: 126px;">{{ $product->id}}</span></td>
+                        <td data-field="Order ID" aria-label="54753-003" class="datatable-cell"><span style="width: 126px; position: relative;
+                             left: 2pc;">{{ $loop->iteration }}</span></td>
 
 
-
-                        <td data-field="Deposit Paid" aria-label="$39286.74" class="datatable-cell"><span
-                                style="width: 126px;">{{ $product->getTranslation('name','en') }}
-                                <div>
-
-                                    {{ $product->getTranslation('name','ar') }}
-                                </div>
-                            </span></td>
+                     
 
 
                         <td data-field="Order ID" aria-label="54753-003" class="datatable-cell">
                             <span style="width: 126px; position: relative;
-                             left: -2pc;">{{$product->category->name}}</span>
+                             left: 0pc;">{{($product->name)}}</span>
                         </td>
 
-                        
+                        <td data-field="Order ID" aria-label="54753-003" class="datatable-cell">
+                                <span style="width: 126px; position: relative;
+                                                         left: 0pc;">{{($product->category->name)}}</span>
+                            </td>
+                            <td data-field="Order ID" aria-label="54753-003" class="datatable-cell">
+                                    <span style="width: 126px; position: relative;
+                                                             left: 0pc;">{{$product->description}}</span>
+                                </td>
 
-
+                      
+<td data-field="Order ID" aria-label="54753-003" class="datatable-cell">
+        <span style="width: 126px; position: relative;
+                                                                 left: 0pc;">{{count($product->productVariants)}}</span>
+    </td>
+                     
                         <td>
                             <div class="btn-group" style="position: relative; left:-60px;">
                                 <a href="#"
-                                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 updateProductForm"
-                                    data-bs-toggle="modal" data-bs-target="#updateModal" data-id="{{ $product->id }}"
-                                    data-name_en="{{ $product->getTranslation('name','en') }}"
-                                    data-name_ar="{{ $product->getTranslation('name','ar') }}"
-                                    data-quantity="{{ $product->quantity }}"
-                                    data-price="{{ $product->price }}"
-                                    data-description="{{ $product->description }}"
-                                    data-is_enabled="{{ $product->is_enabled }}"
-                                    data-category_id="{{ $product->category_id }}">
+                                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 updateCategoryForm"
+                                    data-bs-toggle="modal" data-bs-target="#updateModal" data-id="{{ $product->id }}">
                                     <span class="svg-icon svg-icon-md svg-icon-primary">
                                         <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Write.svg-->
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -159,6 +144,9 @@
                                         <!--end::Svg Icon-->
                                     </span>
                                 </a>
+
+
+
 
                                 <form method="POST" action="#">
                                     @csrf
@@ -200,7 +188,9 @@
 
 
 
+
             {{-- {{ $products->links() }} --}}
+
 
         </div>
         <!--end: Datatable-->
@@ -211,17 +201,9 @@
 @endsection
 
 
-
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-@include('products_js.product_js')
-@include('products_js.addProduct_js')
-{{-- @include('products_js.updateProduct_js') --}}
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
-    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
-
+@include('products_js.updateProduct_js') 
+@include('products_js.product_js') 
+ @include('products_js.addProduct_js')
 @endsection

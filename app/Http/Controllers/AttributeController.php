@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attribute;
 use Illuminate\Http\Request;
+use App\Http\Requests\AttributeRequest;
 
 class AttributeController extends Controller
 {
@@ -35,9 +36,10 @@ class AttributeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AttributeRequest $request)
     {
         //
+        
         Attribute::create(
             [
                 'name'=>json_encode($request->name),
@@ -77,8 +79,10 @@ class AttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(AttributeRequest $request)
     {
+
+        
         Attribute::where('id', $request->up_id)->update([
             'name' => json_encode($request->up_name),
 
