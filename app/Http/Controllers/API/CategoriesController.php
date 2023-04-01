@@ -14,6 +14,19 @@ class CategoriesController extends Controller
     //
     use apiResponse;
 
+    /**
+     * @OA\Get(
+     *      path="/categories",
+     *      operationId="getCategories",
+     *      tags={"General"},
+     *      summary="Get categories API",
+     *      description="Get categories service",
+     *      @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         ),
+     * )
+     */
     public function index()
     {
 

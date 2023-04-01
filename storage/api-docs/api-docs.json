@@ -44,6 +44,21 @@
                     }
                 }
             }
+        },
+        "/api/categories": {
+            "get": {
+                "tags": [
+                    "General"
+                ],
+                "summary": "Get categories API",
+                "description": "Get categories service",
+                "operationId": "getCategories",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
         }
     },
     "components": {
