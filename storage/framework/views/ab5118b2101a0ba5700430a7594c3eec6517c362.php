@@ -26,7 +26,6 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="value">Value</label>
-                        
                         <input type="text" class="form-control " name="value" id="value" >
                         <span class="text-danger formErrors value_err "></span>
                     </div>
@@ -47,6 +46,8 @@
 
 
 <script>
+
+//changing the input field according the chosen attribute
 
 var colorList = ['color', 'colors'];
 var valueField = $('#value');

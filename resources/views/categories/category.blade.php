@@ -108,6 +108,7 @@
                         url:"{{ route('delete.category') }}",
                         method:'post',
                         data:{
+                            "_token": "{{ csrf_token() }}",
                                 category_id:category_id
                         },
                         

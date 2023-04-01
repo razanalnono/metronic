@@ -19,4 +19,6 @@ class OrderAddress extends Model
     }
 
 
+    const TYPE_SHIPPING = 'shipping';
+
 }

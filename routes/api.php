@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\API\AccessTokenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\CategoriesController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\CategoriesController;
+use App\Http\Controllers\API\AccessTokenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,8 @@ Route::prefix('/dashboard')->group(function(){
 });
     
 
+Route::post('/orders',[OrderController::class, 'store']);
 
 Route::get('/categories', [CategoriesController::class, 'index']);
 Route::get('/categories/{id}', [CategoriesController::class, 'show']);
+Route::put('/orders/{order}',[OrderController::class,'cancel']);

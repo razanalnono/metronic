@@ -108,6 +108,7 @@
                         url:"<?php echo e(route('delete.category')); ?>",
                         method:'post',
                         data:{
+                            "_token": "<?php echo e(csrf_token()); ?>",
                                 category_id:category_id
                         },
                         

@@ -5,17 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Repositories\CartRepository;
+use Illuminate\Support\Facades\Auth;
 
 class PagesController extends Controller
 {
     public function index()
     {
-        $page_title = 'Dashboard';
-        $page_description = 'Some description for the page';
+
+        $user=Auth::user()->id;
+        // $page_title = 'Dashboard';
+        // $page_description = 'Some description for the page';
         $products = Product::where('is_enabled', '1')->get();
 
 
-        return view('home', compact('page_title', 'page_description', 'products'));
+         return view('home', compact('products'));
     }
 
 

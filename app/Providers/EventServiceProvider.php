@@ -2,9 +2,14 @@
 
 namespace App\Providers;
 
+use App\Events\AddProductEvent;
 use App\Events\OrderCreated;
+use App\Events\QuantityAdded;
+use App\Listeners\AddQunatity;
+use App\Listeners\AddToStock;
 use App\Listeners\ReduceQuantity;
 use App\Models\Order;
+use App\Notifications\AddProduct;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,9 +26,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        OrderCreatede::class => [
-            ReduceQuantity::class,
+        OrderCreated::class => [
+         //   ReduceQuantity::class,
+            AddToStock::class,
         ],
+        QuantityAdded::class =>[
+            AddQunatity::class,
+        ],
+    
+        
     ];
 
     /**
@@ -41,7 +52,7 @@ class EventServiceProvider extends ServiceProvider
 
         Event::listen(
             OrderCreated::class,
-           [ReduceQuantity::class, 'handle']
+           [AddToStock::class, 'handle']
        );
 
     }

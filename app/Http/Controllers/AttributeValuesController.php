@@ -95,7 +95,8 @@ class AttributeValuesController extends Controller
 
         return response()->json([
             'status' => 'success',
-        ]);    }
+        ]);   
+     }
 
     /**
      * Remove the specified resource from storage.

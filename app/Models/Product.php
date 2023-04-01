@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Events\QuantityAdded;
 use App\Models\Category;
 use App\Models\Variation;
 use App\Traits\imageUpload;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
@@ -16,14 +18,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    use HasFactory, HasTranslations, SoftDeletes,imageUpload;
+    use HasFactory, HasTranslations, SoftDeletes, imageUpload;
 
     protected $guarded = [];
     protected $hidden = ['created_at', 'updated_at'];
     public $translatable = ['name'];
 
- 
-  
+
+
     public function category()
     {
         return $this->belongsTo(Category::class)->withDefault([
@@ -31,15 +33,94 @@ class Product extends Model
         ]);
     }
 
+    public function stock()
+    {
+        return $this->hasMany(Stock::class);
+    }
 
-    public function attributeValues(){
+
+
+    public function attributeValues()
+    {
         return $this->hasMany(AttributeValues::class);
     }
-    
+
     public function productVariants()
     {
         return $this->hasMany(ProductVariants::class);
     }
+
+
+    // public function getNameProduct()
+    // {
+    //     return json_decode($this->products['name']);
+    // }
+
+
+    public function getAttValueAttribute()
+    {
+        return AttributeValues::with('attribute')->whereIn('id', json_decode($this->attribute_value))->get();
+    }
+
+
+    public function availableQuantity()
+    {
+        $pushQuantity = $this->stock()
+            ->where('movement', 'push')
+            ->sum('quantity');
+
+        $pullQuantity = $this->stock()
+            ->where('movement', 'pull')
+            ->sum('quantity');
+
+        return $pushQuantity - $pullQuantity;
+    }
+
+    // public function availableQuantity()
+    // {
+
+    //     $pushQuantity = $this->where('product_id', $this->product_id)
+    //         ->where('movement', 'push')
+    //         ->sum('quantity');
+    //     $pullQuantity = $this->where('product_id', $this->product_id)
+    //         ->where('movement', 'pull')
+    //         ->sum('quantity');
+
+    //     return $pushQuantity - $pullQuantity;
+    // }
+
+
+    // In the Product model
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::updated(function ($product) {
+    //         if ($product->is_stockable) {
+    //             $stock = Stock::where('product_id', $product->id)->first();
+
+    //             if (!$stock) {
+    //                 Stock::create([
+    //                     'product_id' => $product->id,
+    //                     'quantity' => $product->quantity,
+    //                     'movement' => 'push',
+    //                     'reference_id' => Auth::user()->id,
+    //                     'reference_type' => Auth::user()->getMorphClass(),
+    //                 ]);
+    //             } else {
+    //                 $diff = $product->quantity - $stock->quantity;
+    //                 $stock->update([
+    //                     'quantity' => $product->quantity,
+    //                     'movement' => $diff >= 0 ? 'push' : 'pull',
+    //                     'reference_id' => Auth::user()->id,
+    //                     'reference_type' => Auth::user()->getMorphClass(),
+    //                 ]);
+    //             }
+    //         }
+    //     });
+    // }
+
+
 
 
 
@@ -61,8 +142,4 @@ class Product extends Model
             });
         });
     }
-
-
-
-
 }

@@ -31,10 +31,11 @@ class ReduceQuantity
     {
 
         $order = $event->order;
-
+        $quantity=$order->quantity;
+    return 5;
         try {
             foreach ($order->items as $order_item) {
-                $order_item->product->decrement('quantity', 1);
+                $order_item->product->decrement('quantity', $quantity);
             }
         } catch (Throwable $e) {
 

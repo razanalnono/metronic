@@ -29,4 +29,9 @@ class OrderItem extends Pivot
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function getNameProduct()
+    {
+        return $this->products['name'];
+    }
 }

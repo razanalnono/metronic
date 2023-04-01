@@ -19,9 +19,6 @@ return new class extends Migration
             $table->foreignId('product_id')->nullable()
                 ->constrained('products')
                 ->nullOnDelete();
-            $table->foreignId('variation_value')->nullable()
-                ->constrained('variation_values')
-                ->nullOnDelete();
             $table->string('product_name');
             $table->float('price');
             $table->unsignedSmallInteger('quantity')->default(1);

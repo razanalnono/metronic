@@ -15,14 +15,16 @@ class OrderCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $order;
+    public $items;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Order $order)
+    public function __construct(Order $order,$items)
     {
         $this->order=$order;
+        $this->items=$items;
 
     }
 

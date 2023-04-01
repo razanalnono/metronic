@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Stock;
 use App\Models\Product;
 use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Models\AttributeValues;
 use App\Models\ProductVariants;
+use Illuminate\Support\Facades\Auth;
 
 class ProductVariantsController extends Controller
 {
@@ -44,13 +46,25 @@ class ProductVariantsController extends Controller
     public function store(Request $request)
     {
 
+        $id = Auth::user()->id;
+        $user = Auth::user();
+        
         foreach ($request->attributevalues_id as $variationvalue_id) {
-            ProductVariants::create([
+           $variant= ProductVariants::create([
                 'product_id' => $request->product_id,
                 'quantity' => $request->quantity,
                 'price' => $request->price,
                 'attributevalues_id' => $variationvalue_id,
             ]);
+
+            Stock::create([
+                'product_id' => $request->product_id,
+                'quantity' => $request->quantity,
+                'product_variants_id'=>$variant->id,
+                'refernece_id'=>$id,
+                'reference_type'=>$user->getMorphClass()
+                
+            ]);  
         }
 
 
@@ -66,9 +80,12 @@ class ProductVariantsController extends Controller
      * @param  \App\Models\ProductVariants  $productVariants
      * @return \Illuminate\Http\Response
      */
-    public function show(ProductVariants $productVariants)
+    public function show($id)
     {
-        //
+
+        $product=Product::findOrFail($id);
+        $variant= $product->productVariants->all();
+        return view('products_js.show',compact('variant'));
     }
 
     /**
@@ -91,10 +108,24 @@ class ProductVariantsController extends Controller
      */
     public function update(Request $request)
     {
+        $id = Auth::user()->id;
+        $user = Auth::user();
+        
         $variant = ProductVariants::findOrFail($request->up_id);
         $variant->quantity = $request->up_quantity;
         $variant->price = $request->up_price;
         $variant->save();
+
+        Stock::create([
+            'product_id' => $variant->product_id,
+            'quantity' => $request->up_quantity,
+            'product_variants_id' => $variant->id,
+            'movement'=>'push',
+            'refernece_id' => $id,
+            'refernece_type' => $user->getMorphClass(),
+
+        ]); 
+        
 
         return response()->json(['status' => 'success']);
     }

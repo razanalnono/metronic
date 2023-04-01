@@ -31,6 +31,12 @@ class AppServiceProvider extends ServiceProvider
         //
         Paginator::useBootstrap();
         JsonResource::withoutWrapping();
+     // Parse JSON requests
+        $this->app->request->setFormat('json', 'application/json', function ($request) {
+            return json_decode($request->getContent(), true);
+        });
+    
+
 
     }
 }

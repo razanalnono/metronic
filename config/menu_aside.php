@@ -52,13 +52,52 @@ return [
             'root' => true,
 
         ],
-  
-     
-     
-        
 
- 
 
+        [
+            'title' => 'Stock',
+            'icon' => 'media/svg/icons/Layout/Layout-4-blocks.svg',
+            'page' => '/stock',
+            'bullet' => 'line',
+            'root' => true,
+
+        ],
+
+        [
+            'title' => 'Orders',
+            'icon' => 'media/svg/icons/Layout/Layout-4-blocks.svg',
+            'page' => '/orders',
+            'bullet' => 'line',
+            'root' => true,
+
+        ],
+        [
+            'title' => 'Cases',
+            'icon' => 'media/svg/icons/Layout/Layout-4-blocks.svg',
+            'page' => '/cases',
+            'bullet' => 'line',
+            'root' => true,
+
+        ],
+
+
+        [
+            'title' => 'Permissions',
+            'icon' => 'media/svg/icons/Layout/Layout-4-blocks.svg',
+            'page' => '/permissions',
+            'bullet' => 'line',
+            'root' => true,
+
+        ],
+
+        [
+            'title' => 'Roles',
+            'icon' => 'media/svg/icons/Layout/Layout-4-blocks.svg',
+            'page' => '/roles',
+            'bullet' => 'line',
+            'root' => true,
+
+        ],
 
      
         ]

@@ -16,6 +16,8 @@ class ProductVariants extends Model
       'attributevalue' => 'json'
    ];
 
+
+
    public function attributeValues()
    {
       return $this->belongsTo(AttributeValues::class, 'attributevalues_id');
@@ -23,9 +25,14 @@ class ProductVariants extends Model
 
    public function product()
    {
-      return $this->belongsTo(Product::class);
+      return $this->belongsTo(Product::class,'product_id');
    }
 
+   public function stock()
+   {
+      return $this->hasMany(Stock::class);
+   }
+   
    public function getAttValueAttribute()
    {
       return AttributeValues::with('attribute')->whereIn('id', json_decode($this->attribute_value))->get();
@@ -33,6 +40,20 @@ class ProductVariants extends Model
 
 
 
+   public function availableQuantity()
+   {
+      $pushQuantity = $this->stock()
+         ->where('movement', 'push')
+         ->sum('quantity');
+
+      $pullQuantity = $this->stock()
+         ->where('movement', 'pull')
+         ->sum('quantity');
+
+      return $pushQuantity - $pullQuantity;
+   }
+
+   
    public function getAttributeValuesAttribute()
    {
       $attributeValues = AttributeValues::whereIn('id', json_decode($this->attribute_value))->get();
