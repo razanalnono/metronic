@@ -9,32 +9,30 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
 
+
+
 class AccessTokenController extends Controller
 {
-    //
-
+    /**
+     * @OA\Info(
+     *     description=" API Documentation",
+     *     version="1.0.0",
+     *     title="API swagger documentation",
+     *     termsOfService="http://swagger.io/terms/",
+     *     @OA\License(
+     *         name="Apache 2.0",
+     *         url="http://www.apache.org/licenses/LICENSE-2.0.html"
+     *     )
+     * )
+     *
+     * @OA\SecurityScheme(
+     *     type="http",
+     *     in="header",
+     *     securityScheme="api_key",
+     *     scheme="bearer"
+     * )
+     */
 public function store(Request $request){
-
-        /**
-         * @OA\Info(
-         *     description=" API Documentation",
-         *     version="1.0.0",
-         *     title="API swagger documentation",
-         *     termsOfService="http://swagger.io/terms/",
-         *     @OA\License(
-         *         name="Apache 2.0",
-         *         url="http://www.apache.org/licenses/LICENSE-2.0.html"
-         *     )
-         * )
-         *
-         * @OA\SecurityScheme(
-         *     type="http",
-         *     in="header",
-         *     securityScheme="api_key",
-         *     scheme="bearer"
-         * )
-         * @
-         */
     
     $request->validate([
         'email' =>'required|email',
