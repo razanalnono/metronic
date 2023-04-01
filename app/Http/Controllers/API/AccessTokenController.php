@@ -31,12 +31,42 @@ class AccessTokenController extends Controller
      *     securityScheme="api_key",
      *     scheme="bearer"
      * )
-     */
+     *
+     *   * @OA\Tag(
+     *     name="Auth",
+     *     description="Auth request",
+     * )
+     *
+     * @OA\Post(
+     *      path="/auth/login",
+     *      operationId="resend verify code",
+     *      tags={"Auth"},
+     *      summary="login",
+     *      description="login",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                  schema="login",
+     *                required={"email"},
+     *          @OA\Property(
+     *                     property="email",
+     *                     description="email",
+     *                     type="string",
+     *))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="success"
+     *     )
+     * )
+     **/
 public function store(Request $request){
-    
+
     $request->validate([
         'email' =>'required|email',
-        'device_name'=>'string|max:value255' 
+        'device_name'=>'string|max:value255'
     ]);
 
 
@@ -69,7 +99,7 @@ public function store(Request $request){
         ) {
             $personalAccessToken->delete();
         }
-        
+
     }
 
 }
