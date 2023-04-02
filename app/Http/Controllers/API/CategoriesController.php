@@ -32,6 +32,26 @@ class CategoriesController extends Controller
 
         return $this->apiResponse(CategoryResource::collection(Category::all()), "تم تنفيذ الأمر بنجاح", Response::HTTP_OK);
     }
+    /** 
+     * @OA\Get(
+     *      path="/api/categories/{id}",
+     *      operationId="showCategory",
+     *      tags={"General"},
+  *     @OA\Parameter(
+     *          name="id",
+     *          description="category id ",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *      ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="success"
+     *     )
+     * )
+    */
     public function show($id)
     {
 

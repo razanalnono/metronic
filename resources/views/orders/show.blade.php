@@ -60,7 +60,7 @@
                                 @php
                                 $total=0;
                                 @endphp
-                                @foreach ($ite as $t )
+                                @foreach ($detail_item as $detail) 
 
                                 <tr class="font-weight-boldest border-bottom-0">
                                     <td class="border-top-0 pl-0 py-4 d-flex align-items-center">
@@ -68,19 +68,20 @@
                                         <div class="symbol symbol-40 flex-shrink-0 mr-4 bg-light">
                                             <div class="symbol-label"
                                                 style="background-image: url('/metronic/theme/html/demo1/dist/assets/media/products/2.png')">
-                                                <img src="{{ $t->image }}" />
+                                                <img src="{{ $detail->image }}" />
                                             </div>
+                                        
                                         </div>
                                         <!--end::Symbol-->
-                                        {{ json_decode($t->name)->en }}
+                                        {{ json_decode($detail->name)->en }}
                                     </td>
 
 
                                     <!-- your code here -->
-                                    <td class="border-top-0 text-right py-4 align-middle">{{ $t->quantity }}</td>
-                                    <td class="border-top-0 text-right py-4 align-middle">{{ $t->price }}</td>
+                                    <td class="border-top-0 text-right py-4 align-middle">{{ $detail->quantity }}</td>
+                                    <td class="border-top-0 text-right py-4 align-middle">{{ $detail->price }}</td>
                                     @php
-                                    $subtotal = $t->quantity * $t->price;
+                                    $subtotal = $detail->quantity * $detail->price;
                                     @endphp
                                     <td class="text-primary border-top-0 pr-0 py-4 text-right align-middle">{{$subtotal
                                         }}</td>

@@ -41,18 +41,27 @@ class StockController extends Controller
 
 
 
-
     public function store(Request $request)
     {
         $product_id = $request->input('product_id');
+        $product_variants_id = $request->input('product_variants_id');
         $quantity = $request->input('quantity');
         $movement = $request->input('movement');
-        $product = Product::findOrFail($product_id);
-        $available_quantity = $product->availableQuantity(); // get the available quantity for the product
+
+        if (!$product_variants_id) {
+            // if no product_variant_id is provided, use the product_id to create a new stock entry
+            $product = Product::findOrFail($product_id);
+            $available_quantity = $product->availableQuantity();
+        } else {
+            // if a product_variant_id is provided, use that to create a new stock entry
+            $product_variant = ProductVariants::findOrFail($product_variants_id);
+            $available_quantity = $product_variant->availableQuantity();
+            $product_id = $product_variant->product_id; // store the product_id for the stock entry
+        }
 
         $stock = new Stock;
         $stock->product_id = $product_id;
-        $stock->product_variants_id = null; 
+        $stock->product_variants_id = $product_variants_id; // store the variant_id (or null)
         $stock->quantity = $quantity;
         $stock->movement = $movement;
 
@@ -73,6 +82,39 @@ class StockController extends Controller
         $stock->save();
         return response()->json(['quantity' => $quantity]);
     }
+
+
+    // public function store(Request $request)
+    // {
+    //     $product_id = $request->input('product_id');
+    //     $quantity = $request->input('quantity');
+    //     $movement = $request->input('movement');
+    //     $product = Product::findOrFail($product_id);
+    //     $available_quantity = $product->availableQuantity(); // get the available quantity for the product
+
+    //     $stock = new Stock;
+    //     $stock->product_id = $product_id;
+    //     $stock->product_variants_id = null; 
+    //     $stock->quantity = $quantity;
+    //     $stock->movement = $movement;
+
+    //     // set the reference based on the type of model that made the movement
+    //     if (Auth::check()) {
+    //         $stock->refernece()->associate(Auth::user());
+    //     } elseif ($request->has('order_id')) {
+    //         $order = Order::findOrFail($request->input('order_id'));
+    //         $stock->refernece()->associate($order);
+    //     } else {
+    //         // handle error - no reference provided
+    //     }
+
+    //     if ($movement == 'pull' && $quantity > $available_quantity) {
+    //         return response()->json(['error' => 'Requested quantity is more than available quantity.'], 400);
+    //     }
+
+    //     $stock->save();
+    //     return response()->json(['quantity' => $quantity]);
+    // }
 
 
 

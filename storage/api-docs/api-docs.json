@@ -11,7 +11,7 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/auth/login": {
+        "/api/auth/login": {
             "post": {
                 "tags": [
                     "Auth"
@@ -25,11 +25,16 @@
                             "schema": {
                                 "schema": "login",
                                 "required": [
-                                    "email"
+                                    "email",
+                                    "password"
                                 ],
                                 "properties": {
                                     "email": {
                                         "description": "email",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "password",
                                         "type": "string"
                                     }
                                 },
@@ -45,7 +50,44 @@
                 }
             }
         },
-        "/api/categories": {
+        "/api/tokens/{token?}": {
+            "delete": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Revoke token",
+                "description": "Revoke the current user's access token or a specific token by providing its token value.",
+                "operationId": "revoke token",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "The token value to be revoked. If not provided, the current user's access token will be revoked.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Token revoked successfully."
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Token not found."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/categories": {
             "get": {
                 "tags": [
                     "General"
@@ -56,6 +98,224 @@
                 "responses": {
                     "200": {
                         "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/categories/{id}": {
+            "get": {
+                "tags": [
+                    "General"
+                ],
+                "operationId": "showCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "category id ",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get a list of products",
+                "description": "Returns a list of products",
+                "operationId": "getProducts",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The page number to retrieve",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of items to retrieve per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "The search term to filter by",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create a new product",
+                "description": "Create a new product.",
+                "operationId": "createProduct",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "name_en": {
+                                        "description": "The name of the product in English",
+                                        "type": "string"
+                                    },
+                                    "name_ar": {
+                                        "description": "The name of the product in Arabic",
+                                        "type": "string"
+                                    },
+                                    "category_id": {
+                                        "description": "The ID of the category that the product belongs to",
+                                        "type": "integer"
+                                    },
+                                    "quantity": {
+                                        "description": "The quantity of the product",
+                                        "type": "integer"
+                                    },
+                                    "price": {
+                                        "description": "The price of the product",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "description": {
+                                        "description": "The description of the product",
+                                        "type": "string"
+                                    },
+                                    "is_enabled": {
+                                        "description": "Whether the product is enabled or not",
+                                        "type": "boolean"
+                                    },
+                                    "image": {
+                                        "description": "The image of the product",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully"
+                    }
+                }
+            }
+        },
+        "/api/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get product by ID",
+                "description": "Returns a single product with its variants",
+                "operationId": "getProductById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the product to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "product": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "description": {
+                                                    "type": "string"
+                                                },
+                                                "category_id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "variants": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "attribute_values": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer"
+                                                                },
+                                                                "value": {
+                                                                    "type": "string"
+                                                                },
+                                                                "attribute_id": {
+                                                                    "type": "integer"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found"
                     }
                 }
             }

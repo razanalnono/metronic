@@ -60,7 +60,7 @@
                                 <?php
                                 $total=0;
                                 ?>
-                                <?php $__currentLoopData = $ite; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $t): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = $detail_item; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $detail): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
 
                                 <tr class="font-weight-boldest border-bottom-0">
                                     <td class="border-top-0 pl-0 py-4 d-flex align-items-center">
@@ -68,20 +68,21 @@
                                         <div class="symbol symbol-40 flex-shrink-0 mr-4 bg-light">
                                             <div class="symbol-label"
                                                 style="background-image: url('/metronic/theme/html/demo1/dist/assets/media/products/2.png')">
-                                                <img src="<?php echo e($t->image); ?>" />
+                                                <img src="<?php echo e($detail->image); ?>" />
                                             </div>
+                                        
                                         </div>
                                         <!--end::Symbol-->
-                                        <?php echo e(json_decode($t->name)->en); ?>
+                                        <?php echo e(json_decode($detail->name)->en); ?>
 
                                     </td>
 
 
                                     <!-- your code here -->
-                                    <td class="border-top-0 text-right py-4 align-middle"><?php echo e($t->quantity); ?></td>
-                                    <td class="border-top-0 text-right py-4 align-middle"><?php echo e($t->price); ?></td>
+                                    <td class="border-top-0 text-right py-4 align-middle"><?php echo e($detail->quantity); ?></td>
+                                    <td class="border-top-0 text-right py-4 align-middle"><?php echo e($detail->price); ?></td>
                                     <?php
-                                    $subtotal = $t->quantity * $t->price;
+                                    $subtotal = $detail->quantity * $detail->price;
                                     ?>
                                     <td class="text-primary border-top-0 pr-0 py-4 text-right align-middle"><?php echo e($subtotal); ?></td>
 

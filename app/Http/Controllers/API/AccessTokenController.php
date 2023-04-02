@@ -38,7 +38,7 @@ class AccessTokenController extends Controller
      * )
      *
      * @OA\Post(
-     *      path="/auth/login",
+     *      path="/api/auth/login",
      *      operationId="resend verify code",
      *      tags={"Auth"},
      *      summary="login",
@@ -48,10 +48,15 @@ class AccessTokenController extends Controller
      *             mediaType="multipart/form-data",
      *             @OA\Schema(
      *                  schema="login",
-     *                required={"email"},
+     *                required={"email","password"},
      *          @OA\Property(
      *                     property="email",
      *                     description="email",
+     *                     type="string",
+     *),
+      *        @OA\Property(
+     *                     property="password",
+     *                     description="password",
      *                     type="string",
      *))
      *         )
@@ -62,34 +67,67 @@ class AccessTokenController extends Controller
      *     )
      * )
      **/
-public function store(Request $request){
+    public function store(Request $request){
 
-    $request->validate([
-        'email' =>'required|email',
-        'device_name'=>'string|max:value255'
-    ]);
+        $request->validate([
+            'email' =>'required|email',
+            'device_name'=>'string|max:value255'
+        ]);
 
 
-    $user=User::where('email' ,$request->email)->first();
-    if($user && Hash::check($request->password,$user->password)){
-        $device_name=$request->post('device_name',$request->userAgent());
-        $token = $user->createToken($device_name);
+        $user=User::where('email' ,$request->email)->first();
+        if($user && Hash::check($request->password,$user->password)){
+            $device_name=$request->post('device_name',$request->userAgent());
+            $token = $user->createToken($device_name);
+        }
+        return response()->json([
+            'message'=>'success',
+            'token'=>$token,
+        ]);
     }
-    return response()->json([
-        'message'=>'success',
-        'token'=>$token->plainTextToken,
-    ]);
-}
 
 
 
+    /**
+     * @OA\Delete(
+     *      path="/api/tokens/{token?}",
+     *      operationId="revoke token",
+     *      tags={"Auth"},
+     *      summary="Revoke token",
+     *      description="Revoke the current user's access token or a specific token by providing its token value.",
+     *      @OA\Parameter(
+     *          name="token",
+     *          description="The token value to be revoked. If not provided, the current user's access token will be revoked.",
+     *          in="path",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Token revoked successfully."
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token not found.",
+     *      ),
+     *      security={
+     *          {"sanctum": {}}
+     *      }
+     * )
+     */
     public function destroy($token = null)
     {
         $user = Auth::guard('sanctum')->user();
 
         if (null === $token) {
             $user->currentAccessToken()->delete();
-            return;
+            return response(null, 204);
         }
 
         $personalAccessToken = PersonalAccessToken::findToken($token);
@@ -98,8 +136,11 @@ public function store(Request $request){
             && get_class($user) == $personalAccessToken->tokenable_type
         ) {
             $personalAccessToken->delete();
+            return response(null, 204);
         }
 
+        return response(null, 404);
     }
+
 
 }

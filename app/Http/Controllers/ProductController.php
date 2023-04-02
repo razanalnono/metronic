@@ -76,19 +76,19 @@ class ProductController extends Controller
             $image = $request->file('image');
             $folder = 'images/products';
             $image_url = $this->imageUpload($image, $folder);
-            $user = auth()->user(); 
+            $user = auth()->user();
 
             $product =  Product::create([
-                    'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
-                    'slug' => Str::slug($request->name_en),
-                    'category_id' => $request->category_id,
-                    'quantity' => $request->quantity,
-                    'price' => $request->price,
-                    'description' => $request->description,
-                    'is_enabled' => $request->is_enabled ? 1 : 0,
-                    'is_stockable' => $request->is_stockable ? 1 : 0,
-                    'image' => $image_url
-                ]);
+                'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
+                'slug' => Str::slug($request->name_en),
+                'category_id' => $request->category_id,
+                'quantity' => $request->quantity,
+                'price' => $request->price,
+                'description' => $request->description,
+                'is_enabled' => $request->is_enabled ? 1 : 0,
+                'is_stockable' => $request->is_stockable ? 1 : 0,
+                'image' => 1
+            ]);
 
             $product->stock()->create([
                 'quantity' => $product->quantity,
@@ -98,7 +98,7 @@ class ProductController extends Controller
 
             ]);
 
-           // event(new QuantityAdded($product));
+            // event(new QuantityAdded($product));
 
 
             // Initialize an empty array to store the attribute values
@@ -177,17 +177,18 @@ class ProductController extends Controller
     public function show($id)
     {
         //
+        $stock = Stock::all();
         $product = Product::findOrFail($id);
-        if($product->productVariants) {
-           $variant= $product->productVariants->first();
-            $productVariants = DB::table('product_variants')
-                ->join('products', 'products.id', '=', 'product_variants.product_id')
-                ->select(['product_variants.quantity', 'product_variants.price', 'products.name'])
+        if ($product->productVariants) {
+            $variant = $product->productVariants->first();
+            $productVariants = DB::table('stocks')
+                ->join('products', 'products.id', '=', 'stocks.product_id')
+                ->join('product_variants', 'product_variants.id', 'stocks.product_variants_id')
+                ->select(['product_variants.quantity', 'product_variants.price', 'products.name', 'stocks.movement'])
                 ->where('product_variants.product_id', $id)
                 ->first();
-            return view('products_js.show',compact('variant','product','productVariants'));
-            
-        }else{  
+            return view('products_js.show', compact('variant', 'product', 'productVariants', 'stock'));
+        } else {
             $stock = $product->stock->first();
             $movements = DB::table('stocks')
                 ->join('products', 'products.id', '=', 'stocks.product_id')
@@ -199,9 +200,6 @@ class ProductController extends Controller
 
             return view('stock.show', compact('product', 'stock', 'movements'));
         }
-        
-
-       
     }
 
     /**

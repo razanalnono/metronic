@@ -122,10 +122,7 @@ Route::middleware('auth')->group(function (){
 
 });
 
-Route::get('/swagger-json', function () {
-    $swagger = \OpenApi\scan(app_path('Http'));
-    return response()->json($swagger);
-});
+
 
 
 Route::get('/admin', function () {

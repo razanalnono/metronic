@@ -43,18 +43,18 @@ class Stock extends Model
         return AttributeValues::with('attribute')->whereIn('id', json_decode($this->attribute_value))->get();
     }
 
-    // public function availableQuantity()
-    // {
+    public function availableQuantity()
+    {
 
-    //     $pushQuantity = $this->where('product_id', $this->product_id)
-    //         ->where('movement', 'push')
-    //         ->sum('quantity');
-    //     $pullQuantity = $this->where('product_id', $this->product_id)
-    //         ->where('movement', 'pull')
-    //         ->sum('quantity');
+        $pushQuantity = $this->where('product_id', $this->product_id)
+            ->where('movement', 'push')
+            ->sum('quantity');
+        $pullQuantity = $this->where('product_id', $this->product_id)
+            ->where('movement', 'pull')
+            ->sum('quantity');
 
-    //     return $pushQuantity - $pullQuantity;
-    // }
+        return $pushQuantity - $pullQuantity;
+    }
 
 
 }

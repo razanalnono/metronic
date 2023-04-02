@@ -19,19 +19,17 @@ use App\Http\Controllers\API\AccessTokenController;
 */
 
 
-Route::post('auth/login',[AccessTokenController::class,'store'])->middleware('guest:sanctum');
+Route::post('auth/login', [AccessTokenController::class, 'store'])->middleware('guest:sanctum');
 Route::delete('auth/access-tokens/{token?}', [AccessTokenController::class, 'destroy'])->middleware('auth:sanctum');
 
 
-Route::prefix('/dashboard')->group(function(){
-    Route::get('/products', [ProductController::class, 'index']);
-    Route::get('/products/{id}', [ProductController::class, 'show']);
-    Route::post('/addProduct',[ProductController::class,'store']);
-});
-    
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::post('/addProduct', [ProductController::class, 'store']);
 
-Route::post('/orders',[OrderController::class, 'store']);
+
+Route::post('/orders', [OrderController::class, 'store']);
 
 Route::get('/categories', [CategoriesController::class, 'index']);
 Route::get('/categories/{id}', [CategoriesController::class, 'show']);
-Route::put('/orders/{order}',[OrderController::class,'cancel']);
+Route::put('/orders/{order}', [OrderController::class, 'cancel']);

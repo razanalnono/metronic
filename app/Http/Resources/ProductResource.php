@@ -17,22 +17,18 @@ class ProductResource extends JsonResource
     public function toArray($request)
     {
 
-        $product = Product::with('variations.attributes')->findOrFail($request->id);
+        // $product = Product::with('variations.attributes')->findOrFail($request->id);
 
 
         return [
             'id' => $this->id,
-            'product_id' => $product->id,
-            'category'=> $product->category->name,
-            'price'=>$product->price,
-            'description'=>$product->description,
-            'image'=>asset($product->image),
-            'variation'=>$product->variations
-            
-            
-           
+            'category' => $this->category->name,
+            'price' => $this->price,
+            'description' => $this->description,
+            'image' => asset($this->image),
+            'variation' => $this->productVariants
+
+
         ];
     }
-
-    
 }

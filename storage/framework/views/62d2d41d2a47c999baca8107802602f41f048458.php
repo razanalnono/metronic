@@ -22,7 +22,7 @@
                         </select>
                     </div>
                     <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
-                    <input type="hidden" name="product_variants_id" value="<?php echo e($stock->product_variants_id); ?>">
+                    <input type="hidden" name="product_variants_id" value="<?php echo e($variant->id); ?>">
                     <button type="submit" class="btn btn-primary addMovement">Add Movement</button>
                 </form>
             </div>

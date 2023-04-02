@@ -433,7 +433,9 @@ class OrderController extends Controller
 
             return response()->json([
                 'message' => 'Order created successfully',
-                'order_id' => $order,
+                'order' => $order,
+                'items'=>$item,
+                'address'=>$orderAddress,
             ]);
         } catch (\Exception $e) {
             DB::rollback();
@@ -485,25 +487,22 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        // $order = Order::findOrFail($id);
-        // $item=$order->items->all();
-        // // $t=$item->product->all();
-        // return $item;
-        // $t=$item->product->all();
+    
 
 
         $order = Order::findOrFail($id);
         $stock = $order->items->first();
-        $ite = DB::table('orders')
+
+        
+        $detail_item = DB::table('orders')
             ->join('order_logs', 'order_logs.order_id', '=', 'orders.id')
             ->join('order_items', 'order_items.order_id', '=', 'orders.id')
             ->join('products', 'products.id', '=', 'order_items.product_id')
-            ->select(['order_items.quantity', 'order_items.price', 'products.name', 'order_logs.order_cases_id', 'products.image'])
+            ->select(['order_items.quantity', 'order_items.price','products.name', 'order_logs.order_cases_id', 'products.image'])
             ->where('order_items.order_id', $id)
             ->get();
-         
 
-        return view('orders.show', compact('stock', 'order', 'ite'));
+        return view('orders.show', compact('stock', 'order', 'detail_item'));
     }
 
 
